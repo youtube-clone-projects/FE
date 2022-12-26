@@ -1,4 +1,5 @@
 import React from "react";
+
 import styled from "styled-components";
 
 const Layout = ({ children }) => {
@@ -11,5 +12,6 @@ const StLayout = styled.div`
   margin: 0 auto;
   padding-top: 30px;
 `;
+
 
 export default Layout;

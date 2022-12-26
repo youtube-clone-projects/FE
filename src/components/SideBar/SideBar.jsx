@@ -264,6 +264,7 @@ const StDiv = styled.div`
       align-items: center;
       height: 40px;
       padding: 0 12px;
+
       color: #fff
       cursor: pointer;
       &:hover {

@@ -1,5 +1,7 @@
+
 import React from "react";
 import styled, { css } from "styled-components";
+
 import "./Header.css";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
@@ -9,6 +11,7 @@ import { BsBell } from "react-icons/bs";
 
 function Header() {
   return (
+
     <Navbar>
       <HeadLeft>
         <HeadLeftIcon>
@@ -48,6 +51,7 @@ function Header() {
 }
 
 export default Header;
+
 
 const Navbar = styled.nav`
   width: 100%;
@@ -181,3 +185,4 @@ const ProfileImg = styled.div`
   background-color: blueviolet;
   cursor: pointer;
 `;
+
