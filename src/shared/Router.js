@@ -3,6 +3,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import MainPage from "../pages/MainPage";
+import MyPage from "../pages/MyPage";
+
 // import PostingPage from "../pages/PostingPage";
 // import DetailPage from "../pages/DetailPage";
 // import DetailEditPage from "../pages/DetailEditPage";
@@ -18,8 +20,8 @@ const Router = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="mypage" element={<MyPage />} />
           {/* <Route path="detail/:id" element={<DetailPage />} /> */}
-          {/* <Route path="detailedit/:id" element={<EditPost />} /> */}
           {/* <Route path="detailedit/:id" element={<DetailEditPage />} /> */}
           {/* <Route path="posting" element={<PostingPage />} /> */}
           {/* <Route path="signin" element={<SignIn />} /> */}

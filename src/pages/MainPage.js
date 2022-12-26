@@ -1,6 +1,32 @@
-import "./MainPage.css";
 import SideBar from "../components/SideBar/SideBar";
 import styled, { css } from "styled-components";
+
+const cardLists = [
+  {
+    id: 1,
+    img: "블라블라",
+    title: "시녕까까",
+    channelUrl: "정은땅",
+  },
+  {
+    id: 2,
+    img: "블라블라",
+    title: "시녕꾸꾸",
+    channelUrl: "정은땅",
+  },
+  {
+    id: 3,
+    img: "블라블라",
+    title: "시녕꼬꼬",
+    channelUrl: "정은땅",
+  },
+  {
+    id: 4,
+    img: "블라블라",
+    title: "시녕꼬꼬",
+    channelUrl: "정은땅",
+  },
+];
 
 function MainPage() {
   return (
@@ -9,21 +35,29 @@ function MainPage() {
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
-            <StDiv ContentCard>
-              <StDiv ContentCardImg>정은브이로그</StDiv>
-              <StDiv ContentCardChan>
-                <StDiv ChanImg>졍</StDiv>
-                <StDiv ContentCardTxt>
-                  <StSpan ContentTitle>신영땅네 무작정 찾아가봄ㅋㅋ!</StSpan>
-                  <StDiv ContentContents>
-                    <div>
-                      <a href="채널 이동될 주소">정은땅의 슬기로운 생활</a>
-                    </div>
-                    <span ClassName="viewDate">조회수랑 날짜</span>
+            {cardLists.map((cardList) => {
+              console.log(cardList);
+              return (
+                <StDiv ContentCard>
+                  <StDiv ContentCardImg>
+                    <img src={cardList.img} alt={cardList.img} />
+                  </StDiv>
+                  <StDiv ContentCardChan>
+                    <StDiv ChanImg>졍</StDiv>
+                    <StDiv ContentCardTxt>
+                      <StSpan ContentTitle>{cardList.title}</StSpan>
+                      <StDiv ContentContents>
+                        <div>
+                          <a href="채널 이동될 주소">{cardList.channelUrl}</a>
+                          {/* a 안먹힐 수도 있어서 링크나 네비게이트로 바꾸기 */}
+                        </div>
+                        <span ClassName="viewDate"></span>
+                      </StDiv>
+                    </StDiv>
                   </StDiv>
                 </StDiv>
-              </StDiv>
-            </StDiv>
+              );
+            })}
           </StDiv>
         </StDiv>
       </div>

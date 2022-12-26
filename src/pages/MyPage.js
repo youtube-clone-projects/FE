@@ -1,7 +1,11 @@
-import "./MyPage.css";
+import My from "../components/My/My";
 
 function MyPage() {
-  return <div></div>;
+  return (
+    <div>
+      <My />
+    </div>
+  );
 }
 
 export default MyPage;
