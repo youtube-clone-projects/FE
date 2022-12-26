@@ -13,7 +13,6 @@ function Header() {
       <HeadLeft>
         <HeadLeftIcon>
           <AiOutlineMenu className="categoryMenu" />
-
           <DarkLogoBox>
             <DarkLogo alt="dark_logo" src="image/dark_logo.jpg" />
             <LogoKr>KR</LogoKr>
@@ -51,10 +50,10 @@ function Header() {
 export default Header;
 
 const Navbar = styled.nav`
-  width: 1488px;
+  width: 100%;
   height: 56px;
   padding: 0 20px;
-  background-color: #000000;
+  background-color: #0f0f0f;
   display: flex;
   align-items: center;
 `;
@@ -114,8 +113,8 @@ const HeadMiddleSearchInput = styled.input`
   height: 20px;
   display: flex;
   margin: auto;
-  background-color: #000000;
-  border: 0 solid black;
+  background-color: #0f0f0f;
+  border: 0 solid #0f0f0f;
   color: white;
   font-size: 16px;
   &:focus {
@@ -147,6 +146,7 @@ const HeadRight = styled.div`
   min-width: 225px;
   display: flex;
   justify-content: flex-end;
+  margin-right: 40px;
 `;
 
 const HeadRigntPersonal = styled.div`

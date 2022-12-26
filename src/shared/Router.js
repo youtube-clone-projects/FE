@@ -2,9 +2,9 @@ import React from "react";
 // 1. react-router-dom을 사용하기 위해서 아래 API들을 import 합니다.
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
-import MainPage from "../pages/MainPage";
-// import PostingPage from "../pages/PostingPage";
-// import DetailPage from "../pages/DetailPage";
+import Main from "../pages/Main";
+import PostingPage from "../pages/Posts";
+import DetailPage from "../pages/Detail";
 // import DetailEditPage from "../pages/DetailEditPage";
 // import EditPost from "../components/Post/EditPost";
 // import SignIn from "../pages/SingIn";
@@ -15,17 +15,15 @@ import MainPage from "../pages/MainPage";
 const Router = () => {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          {/* <Route path="detail/:id" element={<DetailPage />} /> */}
-          {/* <Route path="detailedit/:id" element={<EditPost />} /> */}
-          {/* <Route path="detailedit/:id" element={<DetailEditPage />} /> */}
-          {/* <Route path="posting" element={<PostingPage />} /> */}
-          {/* <Route path="signin" element={<SignIn />} /> */}
-          {/* <Route path="signup" element={<SignUp />} /> */}
-        </Routes>
-      </Layout>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="detail" element={<DetailPage />} />
+        {/* <Route path="detailedit/:id" element={<EditPost />} /> */}
+        {/* <Route path="detailedit/:id" element={<DetailEditPage />} /> */}
+        <Route path="posting" element={<PostingPage />} />
+        {/* <Route path="signin" element={<SignIn />} /> */}
+        {/* <Route path="signup" element={<SignUp />} /> */}
+      </Routes>
     </BrowserRouter>
   );
 };
