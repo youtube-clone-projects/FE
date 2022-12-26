@@ -2,6 +2,27 @@ import "./MainPage.css";
 import SideBar from "../components/SideBar/SideBar";
 import styled, { css } from "styled-components";
 
+const cardLists = [
+  {
+    id: 1,
+    img: "썸네일",
+    title: "시녕꾸꾸",
+    channelUrl: "정은땅1",
+  },
+  {
+    id: 2,
+    img: "썸네일",
+    title: "시녕까까",
+    channelUrl: "정은땅2",
+  },
+  {
+    id: 3,
+    img: "썸네일",
+    title: "시녕꼬꼬",
+    channelUrl: "정은땅3",
+  },
+];
+
 function MainPage() {
   return (
     <StDiv All>
@@ -9,21 +30,29 @@ function MainPage() {
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
-            <StDiv ContentCard>
-              <StDiv ContentCardImg>정은브이로그</StDiv>
-              <StDiv ContentCardChan>
-                <StDiv ChanImg>졍</StDiv>
-                <StDiv ContentCardTxt>
-                  <StSpan ContentTitle>신영땅네 무작정 찾아가봄ㅋㅋ!</StSpan>
-                  <StDiv ContentContents>
-                    <div>
-                      <a href="채널 이동될 주소">정은땅의 슬기로운 생활</a>
-                    </div>
-                    <span ClassName="viewDate">조회수랑 날짜</span>
+            {cardLists.map((cardList) => {
+              console.log(cardList);
+              return (
+                <StDiv ContentCard>
+                  <StDiv ContentCardImg>
+                    <img src={cardList.img} alt="정은썸넬" />
+                  </StDiv>
+                  <StDiv ContentCardChan>
+                    <StDiv ChanImg>{cardList.channelUrl}</StDiv>
+                    <StDiv ContentCardTxt>
+                      <StSpan ContentTitle>
+                        신영땅네 무작정 찾아가봄ㅋㅋ!
+                      </StSpan>
+                      <StDiv ContentContents>
+                        <div>
+                          <a href="채널 이동될 주소">정은땅의 슬기로운 생활</a>
+                        </div>
+                      </StDiv>
+                    </StDiv>
                   </StDiv>
                 </StDiv>
-              </StDiv>
-            </StDiv>
+              );
+            })}
           </StDiv>
         </StDiv>
       </div>
