@@ -1,4 +1,4 @@
-import SideBar from "../components/SideBar/SideBar";
+import SideBar from "../SideBar/SideBar";
 import styled, { css } from "styled-components";
 
 const cardLists = [
@@ -32,6 +32,7 @@ function MainPage() {
   return (
     <StDiv All>
       <SideBar />
+      {/* <SideBar /> */}
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
@@ -69,7 +70,7 @@ const StDiv = styled.div`
   ${(props) =>
     props.All &&
     css`
-      background-color: #000000;
+      background-color: #0f0f0f;
       color: #ffffff;
       display: flex;
     `}
@@ -84,8 +85,8 @@ const StDiv = styled.div`
   ${(props) =>
     props.ContentsBox &&
     css`
-      height: 300.487px;
-      width: 1248px;
+      height: 100%px;
+      width: 100%;
       max-width: 1344px;
       min-width: auto;
       display: flex;

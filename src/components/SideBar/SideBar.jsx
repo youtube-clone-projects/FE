@@ -117,25 +117,26 @@ const SideBar = () => {
               <FaYoutubeSquare style={{ color: "red", marginRight: "24px" }} />
               <span>YouTube TV</span>
             </StDiv>
-            <StDiv categoryLine>
-              <StDiv CategoryGuide>
-                <span className="material-symbols-outlined">settings</span>
-                <span>설정</span>
-              </StDiv>
-              <StDiv CategoryGuide>
-                <span className="material-symbols-outlined">flag</span>
-                <span>신고 기록</span>
-              </StDiv>
-              <StDiv CategoryGuide>
-                <span className="material-symbols-outlined">help</span>
-                <span>고객센터</span>
-              </StDiv>
-              <StDiv CategoryGuide>
-                <span className="material-symbols-outlined">sms_failed</span>
-                <span>의견 보내기</span>
-              </StDiv>
+          </StDiv>
+          <StDiv CategoryLine>
+            <StDiv CategoryGuide>
+              <span className="material-symbols-outlined">settings</span>
+              <span>설정</span>
             </StDiv>
-
+            <StDiv CategoryGuide>
+              <span className="material-symbols-outlined">flag</span>
+              <span>신고 기록</span>
+            </StDiv>
+            <StDiv CategoryGuide>
+              <span className="material-symbols-outlined">help</span>
+              <span>고객센터</span>
+            </StDiv>
+            <StDiv CategoryGuide>
+              <span className="material-symbols-outlined">sms_failed</span>
+              <span>의견 보내기</span>
+            </StDiv>
+          </StDiv>
+          <StDiv categoryLine>
             <StDiv CategoryGuide>
               <span className="material-symbols-outlined">diversity_3</span>
               <span>C반 5조</span>
@@ -264,6 +265,8 @@ const StDiv = styled.div`
       align-items: center;
       height: 40px;
       padding: 0 12px;
+
+      color: #fff
       cursor: pointer;
       &:hover {
         background-color: #2e2e2e;
