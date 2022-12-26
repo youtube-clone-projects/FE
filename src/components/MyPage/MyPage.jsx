@@ -1,4 +1,3 @@
-
 import "./MyPage.css";
 
 function MyPage() {
@@ -6,4 +5,3 @@ function MyPage() {
 }
 
 export default MyPage;
-
