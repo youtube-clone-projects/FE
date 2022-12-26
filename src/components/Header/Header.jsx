@@ -54,6 +54,7 @@ export default Header;
 
 
 const Navbar = styled.nav`
+  max-width: 1870px;
   width: 100%;
   height: 56px;
   padding: 0 20px;

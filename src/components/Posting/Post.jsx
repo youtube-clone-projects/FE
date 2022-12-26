@@ -73,7 +73,7 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div`
   width: 500px;
   height: 450px;
-  margin-left: 30px;
+  margin-left: 100px;
 `;
 
 const Title = styled.textarea`
