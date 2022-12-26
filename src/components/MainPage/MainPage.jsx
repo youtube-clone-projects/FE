@@ -1,14 +1,30 @@
 import "./MainPage.css";
-import SideBar from "../components/SideBar/SideBar";
+import SideBar from "../SideBar/SideBar";
 import styled, { css } from "styled-components";
 
 function MainPage() {
   return (
     <StDiv All>
       <SideBar />
+      {/* <SideBar /> */}
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
+            <StDiv ContentCard>
+              <StDiv ContentCardImg>정은브이로그</StDiv>
+              <StDiv ContentCardChan>
+                <StDiv ChanImg>졍</StDiv>
+                <StDiv ContentCardTxt>
+                  <StSpan ContentTitle>신영땅네 무작정 찾아가봄ㅋㅋ!</StSpan>
+                  <StDiv ContentContents>
+                    <div>
+                      <a href="채널 이동될 주소">정은땅의 슬기로운 생활</a>
+                    </div>
+                    <span ClassName="viewDate">조회수랑 날짜</span>
+                  </StDiv>
+                </StDiv>
+              </StDiv>
+            </StDiv>
             <StDiv ContentCard>
               <StDiv ContentCardImg>정은브이로그</StDiv>
               <StDiv ContentCardChan>
@@ -35,7 +51,7 @@ const StDiv = styled.div`
   ${(props) =>
     props.All &&
     css`
-      background-color: #000000;
+      background-color: #0f0f0f;
       color: #ffffff;
       display: flex;
     `}
@@ -50,8 +66,8 @@ const StDiv = styled.div`
   ${(props) =>
     props.ContentsBox &&
     css`
-      height: 300.487px;
-      width: 1248px;
+      height: 100%px;
+      width: 100%;
       max-width: 1344px;
       min-width: auto;
       display: flex;
