@@ -9,7 +9,9 @@ const Detail = () => {
   return (
     <>
       <Header />
-      <DetailPage />
+      <Layout>
+        <DetailPage />
+      </Layout>
     </>
   );
 };

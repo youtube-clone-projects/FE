@@ -1,4 +1,3 @@
-import "./MainPage.css";
 import SideBar from "../SideBar/SideBar";
 import styled, { css } from "styled-components";
 
