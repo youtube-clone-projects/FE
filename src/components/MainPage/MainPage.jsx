@@ -31,8 +31,6 @@ const cardLists = [
 function MainPage() {
   return (
     <StDiv All>
-      <SideBar />
-      {/* <SideBar /> */}
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
@@ -90,7 +88,7 @@ const StDiv = styled.div`
       max-width: 1344px;
       min-width: auto;
       display: flex;
-      margin: 0 16px;
+      margin: 50px 0 0 260px;
     `}
 
   ${(props) =>

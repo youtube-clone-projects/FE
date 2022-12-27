@@ -9,10 +9,10 @@ const Main = () => {
   return (
     <>
       <Header />
-      {/* <Layout> */}
-
-      <MainPage />
-      {/* </Layout> */}
+      <SideBar />
+      <Layout>
+        <MainPage />
+      </Layout>
     </>
   );
 };
