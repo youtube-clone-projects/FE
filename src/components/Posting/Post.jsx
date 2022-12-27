@@ -1,14 +1,57 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { __postPost } from "../../redux/modules/postSlice";
 
 const Post = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [post, setPost] = useState({
+    title: "",
+    content: "",
+    videoFile: "",
+    imageFile: "",
+    category: "",
+  });
+
+  const onClickHandler = () => {
+    if (post.title === "" || post.title.length >= 30) {
+      alert("30자이내의 제목을 입력해주세요");
+    } else if (post.category === "") {
+      alert("카테고리를 선태해주세요!");
+    } else if (post.content === "") {
+      alert("내용을 입력해주세요!");
+    } else if (post.videoFile === "" || post.imageFile === "") {
+      alert("파일을 삽입 해 주세요");
+    } else {
+      dispatch(__postPost(post));
+      console.log(post);
+      navigate("/");
+    }
+  };
   return (
     <>
       <TextUpload>동영상 업로드</TextUpload>
       <Container>
         <LeftContainer>
-          <Title type="text" placeholder="제목을 입력해주세요"></Title>
-          <Content type="text" placeholder="내용을 입력해주세요"></Content>
+          <Title
+            type="text"
+            placeholder="제목을 입력해주세요"
+            onChange={(event) => {
+              const { value } = event.target;
+              setPost({ ...post, title: value });
+            }}
+          ></Title>
+          <Content
+            type="text"
+            placeholder="내용을 입력해주세요"
+            onChange={(event) => {
+              const { value } = event.target;
+              setPost({ ...post, content: value });
+            }}
+          ></Content>
         </LeftContainer>
         <RightContainer>
           <Wrap>
@@ -19,17 +62,22 @@ const Post = () => {
             </PreViewContet>
             <PreViewContet>자세히 알아보기</PreViewContet>
             <PreView>
-              <PreViewBtn>미리보기 이미지 업로드</PreViewBtn>
-              <PreViewBtn></PreViewBtn>
+              <PreViewInput>미리보기 이미지 업로드</PreViewInput>
+              <PreViewInput></PreViewInput>
             </PreView>
             <Wrap>
               <CategoryText>카테고리</CategoryText>
               <CategoryContet>
                 카테고리를 추가해 주세요 카테고리 별로 동영상을 찾기 쉬워집니다.
               </CategoryContet>
-              <SelectBox>
+              <SelectBox
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setPost({ ...post, cateMbti: value });
+                }}
+              >
                 <option value="" selected>
-                  기타
+                  카테고리 선택
                 </option>
                 <option value="스포츠">스포츠</option>
                 <option value="게임">게임</option>
@@ -39,12 +87,17 @@ const Post = () => {
           </Wrap>
         </RightContainer>
       </Container>
-      <UpliadWrap>
-        <UploadText>업로드</UploadText>
-        <UploadBtn>파일선택</UploadBtn>
-        <UploadContent>선택된 파일 없음</UploadContent>
-      </UpliadWrap>
-      <SelectBtn>게시글 등록</SelectBtn>
+      <UploadWrap>
+        <UploadText htmlFor="video">업로드</UploadText>
+
+        <UploadInput
+          type="file"
+          id="video"
+          name="video"
+          accept="image/png, image/jpeg, image/jpg, video/mp4"
+        ></UploadInput>
+      </UploadWrap>
+      <SelectBtn onClick={onClickHandler}>게시글 등록</SelectBtn>
     </>
   );
 };
@@ -117,7 +170,7 @@ const PreView = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const PreViewBtn = styled.button`
+const PreViewInput = styled.button`
   width: 215px;
   height: 100px;
   color: #fff;
@@ -146,30 +199,23 @@ const SelectBox = styled.select`
   color: rgb(5, 5, 5);
 `;
 
-const UpliadWrap = styled.div`
+const UploadWrap = styled.div`
   display: flex;
   flex-direction: row;
   /* justify-content: center; */
   align-items: center;
 `;
-const UploadText = styled.div`
+const UploadText = styled.label`
   font-size: 28px;
   color: #fff;
   margin-top: 15px;
 `;
 
-const UploadBtn = styled.button`
-  width: 100px;
-  height: 35px;
-  margin: 15px 0 0 10px;
-  background-color: #282828;
+const UploadInput = styled.input`
+  width: 200px;
+  height: 30px;
+  margin: 20px 0 0 10px;
   color: #fff;
-`;
-
-const UploadContent = styled.div`
-  font-size: 20px;
-  color: #fff;
-  margin: 15px 0 0 10px;
 `;
 
 const SelectBtn = styled.button`
