@@ -1,19 +1,17 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "id": 0,
+      "title": "MBTI 유형별 성격 간단 정리",
+      "content": "istp",
+      "category": "나도 몰라용",
+      "file": ""
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": 1
+    },
+    {
+      "id": 2
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

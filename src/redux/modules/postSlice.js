@@ -17,6 +17,21 @@ export const __getPost = createAsyncThunk(
   "getPost",
   async (payload, thunkAPI) => {
     try {
+      const { data } = await axios.get(
+        `https://www.sparta-sjl.shop/api/posts`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
+          },
+        }
+      );
+      console.log(data);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+
       const data = await apis.getPost();
       console.log("로딩데이터: ", data);
       console.log("데이터찾기: ", data.data);
@@ -25,26 +40,37 @@ export const __getPost = createAsyncThunk(
     } catch (err) {
       console.log(err);
       return thunkAPI.rejectWithValue(err);
+
     }
   }
 );
 
+// 데이터 추가
 export const __postPost = createAsyncThunk(
   "postPost",
   async (payload, thunkAPI) => {
     try {
-      console.log("payload :", payload);
-      const data = await axios.post(
-        `https://www.sparta-sjl.shop/api/posts`,
-        payload
-      );
 
+      for (const pair of payload) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+      console.log("payload :", payload);
+      const data = await apis.createPost(payload);
+      // const data = await axios.post(
+      //   `https://www.sparta-sjl.shop/api/posts`,
+      //   payload
+      // );
+
+
+      console.log("POST 추가 데이터", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
+
 
 export const __getMyPage = createAsyncThunk(
   "getMyPage",
@@ -124,7 +150,6 @@ export const __editPost = createAsyncThunk(
   }
 );
 
-// ----------------------------
 
 export const postSlice = createSlice({
   name: "post",
@@ -150,6 +175,7 @@ export const postSlice = createSlice({
       state.isSuccess = true;
       console.log(action.payload);
       state.posts = action.payload;
+
     },
     [__getPost.rejected]: (state, action) => {
       state.isLoading = false; //코드에 오류가 났을때 reject
@@ -157,6 +183,7 @@ export const postSlice = createSlice({
       // 에러 발생-> 네트워크 요청은 끝,false
       // catch 된 error 객체를 state.error에 넣습니다.
     },
+
 
     // //---마이페이지 조회
     // [__getMyPage.pending]: (state) => {
@@ -202,15 +229,25 @@ export const postSlice = createSlice({
       // 미들웨어를 통해 받은 action값이 무엇인지 항상 확인한다
       console.log("action-서버값", typeof action.payload);
       state.isLoading = false;
+
+      console.log(state.posts);
+      state.posts.push(action.payload);
+      // state.posts = [...state.posts, action.payload];
+
       const newPost = state.posts.filter((t) => t.num !== action.payload);
       state.posts = [...newPost];
+
     },
     [__deletePost.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
+
+    // [__getPost.pending]: (state) => {
+
     // 수정 버튼 클릭 -----------------
     // [__editStartPosting.pending]: (state) => {
+
     //   state.isLoading = true;
     // },
     // [__editStartPosting.fulfilled]: (state, action) => {

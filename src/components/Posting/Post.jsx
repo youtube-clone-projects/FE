@@ -1,103 +1,172 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef } from "react";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { __postPost } from "../../redux/modules/postSlice";
+import { apis } from "../../lib/axios";
 
 const Post = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [post, setPost] = useState({
-    title: "",
-    content: "",
-    videoFile: "",
-    imageFile: "",
-    category: "",
-  });
 
-  const onClickHandler = () => {
-    if (post.title === "" || post.title.length >= 30) {
-      alert("30자이내의 제목을 입력해주세요");
-    } else if (post.category === "") {
-      alert("카테고리를 선태해주세요!");
-    } else if (post.content === "") {
-      alert("내용을 입력해주세요!");
-    } else if (post.videoFile === "" || post.imageFile === "") {
-      alert("파일을 삽입 해 주세요");
-    } else {
-      dispatch(__postPost(post));
-      console.log(post);
-      navigate("/");
+  // const [imageUrl, setImageUrl] = useState(null);
+  const imgRef = useRef();
+  // const [post, setPost] = useState();
+  const dispatch = useDispatch();
+
+  const onChangeImage = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    const reader = new FileReader();
+    // const file = imgRef.current.files[0];
+    console.log(file);
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      // const image = reader.result;
+      setPost({
+        ...post,
+        imageUrl: reader.result,
+      });
+    };
+  };
+
+  const onChangeVideo = (event) => {
+    const file = event.target.files[0];
+    setVideoFile(file);
+    const reader = new FileReader();
+    // const file = imgRef.current.files[0];
+    console.log(file);
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      // const image = reader.result;
+      setPost({
+        ...post,
+        videoUrl: reader.result,
+      });
+    };
+  };
+
+  // console.log(imageUrl);
+  const [imagefile, setImageFile] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const [post, setPost] = useState([]);
+  const [video, setVideoFile] = useState("");
+
+  const onSubmitHandler = () => {
+    console.log(category);
+    console.log(video);
+    console.log(video);
+
+    const formdata = new FormData();
+    formdata.append("file", imagefile);
+    formdata.append("title", title.title);
+    formdata.append("content", content.content);
+    formdata.append("category", category.category);
+    formdata.append("video", video);
+    // formdata.append("vedio", title.title);
+    console.log(formdata);
+    console.log(typeof formdata);
+
+    dispatch(__postPost(formdata));
+
+    for (const pair of formdata) {
+      console.log(pair[0] + ", " + pair[1]);
     }
   };
+
   return (
     <>
       <TextUpload>동영상 업로드</TextUpload>
-      <Container>
-        <LeftContainer>
-          <Title
-            type="text"
-            placeholder="제목을 입력해주세요"
-            onChange={(event) => {
-              const { value } = event.target;
-              setPost({ ...post, title: value });
-            }}
-          ></Title>
-          <Content
-            type="text"
-            placeholder="내용을 입력해주세요"
-            onChange={(event) => {
-              const { value } = event.target;
-              setPost({ ...post, content: value });
-            }}
-          ></Content>
-        </LeftContainer>
-        <RightContainer>
-          <Wrap>
-            <PreViewText>미리보기 이미지</PreViewText>
-            <PreViewContet>
-              동영상의 내용을 알려주는 사진을 선택하거나 업로드하세요. 시청자의
-              시선을 사로잡을만한 이미지를 사용해 보세요
-            </PreViewContet>
-            <PreViewContet>자세히 알아보기</PreViewContet>
-            <PreView>
-              <PreViewInput>미리보기 이미지 업로드</PreViewInput>
-              <PreViewInput></PreViewInput>
-            </PreView>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmitHandler(post);
+          // navigate("/");
+        }}
+      >
+        <Container>
+          <LeftContainer>
+            <Title
+              type="text"
+              name="title"
+              id="title"
+              required
+              placeholder="제목을 입력해주세요"
+              onChange={(event) => {
+                const { value } = event.target;
+                setTitle({ ...post, title: value });
+              }}
+            ></Title>
+            <Content
+              type="text"
+              placeholder="내용을 입력해주세요"
+              required
+              maxLength={200}
+              minLength={10}
+              name="content"
+              id="content"
+              onChange={(event) => {
+                const { value } = event.target;
+                setContent({ ...post, content: value });
+              }}
+            ></Content>
+          </LeftContainer>
+          <RightContainer>
             <Wrap>
-              <CategoryText>카테고리</CategoryText>
-              <CategoryContet>
-                카테고리를 추가해 주세요 카테고리 별로 동영상을 찾기 쉬워집니다.
-              </CategoryContet>
-              <SelectBox
-                onChange={(event) => {
-                  const { value } = event.target;
-                  setPost({ ...post, cateMbti: value });
-                }}
-              >
-                <option value="" selected>
-                  카테고리 선택
-                </option>
-                <option value="스포츠">스포츠</option>
-                <option value="게임">게임</option>
-                <option value="음식">음식</option>
-              </SelectBox>
+              <PreViewText>미리보기 이미지</PreViewText>
+              <PreViewContet>
+                동영상의 내용을 알려주는 사진을 선택하거나 업로드하세요.
+                시청자의 시선을 사로잡을만한 이미지를 사용해 보세요
+              </PreViewContet>
+              <PreViewContet>자세히 알아보기</PreViewContet>
+              <PreView>
+                <PreViewInput
+                  type="file"
+                  // value={imgUrl}
+                  encType="multipart/form-data"
+                  onChange={onChangeVideo}
+                ></PreViewInput>
+                <PreViewInput></PreViewInput>
+              </PreView>
+              <Wrap>
+                <CategoryText>카테고리</CategoryText>
+                <CategoryContet>
+                  카테고리를 추가해 주세요 카테고리 별로 동영상을 찾기
+                  쉬워집니다.
+                </CategoryContet>
+                <SelectBox
+                  name="category"
+                  id="category"
+                  required
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    setCategory({ ...post, category: value });
+                  }}
+                >
+                  {" "}
+                  <option selected>카테고리 선택</option>
+                  <option value="스포츠">스포츠</option>
+                  <option value="게임">게임</option>
+                  <option value="음식">음식</option>
+                </SelectBox>
+              </Wrap>
             </Wrap>
-          </Wrap>
-        </RightContainer>
-      </Container>
-      <UploadWrap>
-        <UploadText htmlFor="video">업로드</UploadText>
+          </RightContainer>
+        </Container>
+        <UploadWrap>
+          <UploadText htmlFor="video-upload">업로드</UploadText>
 
-        <UploadInput
-          type="file"
-          id="video"
-          name="video"
-          accept="image/png, image/jpeg, image/jpg, video/mp4"
-        ></UploadInput>
-      </UploadWrap>
-      <SelectBtn onClick={onClickHandler}>게시글 등록</SelectBtn>
+          <UploadInput
+            type="file"
+            ref={imgRef}
+            // value={imgUrl}
+            encType="multipart/form-data"
+            onChange={onChangeImage}
+          />
+        </UploadWrap>
+        <SelectBtn add>게시글 등록</SelectBtn>
+      </form>
     </>
   );
 };
@@ -170,7 +239,7 @@ const PreView = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const PreViewInput = styled.button`
+const PreViewInput = styled.input`
   width: 215px;
   height: 100px;
   color: #fff;

@@ -19,7 +19,9 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="detail/:num" element={<DetailPage />} />
+        <Route path="detail" element={<DetailPage />} />
+        <Route path="detail/:id" element={<DetailPage />} />
+        {/* <Route path="detailedit/:id" element={<DetailEditPage />} /> */}
         <Route path="mypage" element={<MyPage />} />
         <Route path="detailedit/:num" element={<EditPost />} />
         <Route path="posting" element={<PostingPage />} />

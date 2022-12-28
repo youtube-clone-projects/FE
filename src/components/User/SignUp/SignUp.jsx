@@ -26,7 +26,7 @@ const SignUp = () => {
         // console.log("signup res: ", res);
         // alert(res.data.msg);
         localStorage.setItem("id", res.headers.authorization);
-        navigate("/login");
+        navigate("/signin");
       })
       .catch((err) => {
         console.log("error: ", err);
@@ -58,12 +58,12 @@ const SignUp = () => {
               onChange={setPassword}
               placeholder="Please enter your PW"
             ></PwInput>
-            <SignCheckPW>PW :</SignCheckPW>
+            {/* <SignCheckPW>PW :</SignCheckPW>
             <IdInput
               check
               type="text"
               placeholder="Please Check your PW"
-            ></IdInput>
+            ></IdInput> */}
             <SignEmail htmlFor="email">E-mail :</SignEmail>
             <IdInput
               email
@@ -73,7 +73,7 @@ const SignUp = () => {
               onChange={setEmail}
               placeholder="Please enter your E-mail"
             ></IdInput>
-            <SignUpBtn>Sign Up</SignUpBtn>
+            <SignUpBtn>SIGN UP</SignUpBtn>
           </form>
         </LoginBox>
       </BgRight>
@@ -156,7 +156,7 @@ const SignID = styled.label`
 
 const SignPW = styled.label`
   position: absolute;
-  top: 255px;
+  top: 265px;
   left: 10px;
   width: 100px;
   height: 60px;
@@ -167,22 +167,22 @@ const SignPW = styled.label`
   font-size: 26px;
 `;
 
-const SignCheckPW = styled.label`
-  position: absolute;
-  top: 335px;
-  left: 10px;
-  width: 100px;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0);
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  font-size: 26px;
-`;
+// const SignCheckPW = styled.label`
+//   position: absolute;
+//   top: 335px;
+//   left: 10px;
+//   width: 100px;
+//   height: 60px;
+//   background-color: rgba(255, 255, 255, 0);
+//   font-weight: bold;
+//   text-align: center;
+//   color: white;
+//   font-size: 26px;
+// `;
 
 const SignEmail = styled.label`
   position: absolute;
-  top: 420px;
+  top: 355px;
   left: 10px;
   width: 100px;
   height: 60px;
@@ -222,7 +222,7 @@ const IdInput = styled.input`
     props.email &&
     css`
       position: absolute;
-      top: 410px;
+      top: 350px;
       left: 130px;
       width: 270px;
       height: 35px;
@@ -235,7 +235,7 @@ const IdInput = styled.input`
 
 const PwInput = styled.input`
   position: absolute;
-  top: 250px;
+  top: 260px;
   left: 130px;
   width: 270px;
   height: 35px;
@@ -247,7 +247,7 @@ const PwInput = styled.input`
 
 const SignUpBtn = styled.button`
   position: absolute;
-  top: 480px;
+  top: 470px;
   left: 130px;
   width: 290px;
   height: 45px;

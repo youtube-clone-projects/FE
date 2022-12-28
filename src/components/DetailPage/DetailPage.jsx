@@ -1,76 +1,56 @@
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import Comments from "../Comment/Comment";
-import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { __getList } from "../../redux/modules/postSlice";
+import { Link } from "react-router-dom";
 import {
   __getPost,
-  __postLike,
   __deletePost,
-} from "../../redux/modules/postSlice";
+  __getComments,
+  __deleteComments,
+  __editComments,
+  __addComments,
+  __likeButton,
+} from "../../redux/modules/detailSlice";
+import { useParams, useNavigate } from "react-router-dom";
+// import Detailcomment from "../detail/DetailComment";
 
 function DetailPage() {
-  const navigate = useNavigate();
+  const { isLoading, error, posts } = useSelector((state) => state.detail);
+  const { post } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  const isLoading = useSelector(
-    (state) => state.post.isLoading // 하나가 바뀌어도 다 바뀐다.
-  );
-  const post = useSelector(
-    (state) => state.post.post // 하나가 바뀌어도 다 바뀐다.
-  );
-  const [isLogin, setIslogin] = useState(false);
+  // const fetchPosts = async () => {
+  //   const { data } = await axios.get("https://test101.fly.dev/posts");
+  //   setPosts(data);
+  // };
 
   useEffect(() => {
-    // console.log(localStorage.getItem("id") !== null);
-    if (localStorage.getItem("id") !== null) {
-      setIslogin(true);
-    }
-    // console.log(isLogin);
+    dispatch(__getList());
     dispatch(__getPost(Number(id)));
-  }, [dispatch, id]);
+    console.log(id);
+  }, [dispatch]);
 
-  console.log(post);
-  // console.log(checkPostLike);
-  // console.log(likeCount);
-
-  const onClickEditPostHandler = (nickname) => {
-    if (isLogin === true) {
-      if (nickname === localStorage.getItem("nickname")) {
-        navigate(`/editpost/${id}`);
-      } else {
-        alert("타인의 게시물을 수정할 수 없습니다.");
-      }
-    } else {
-      alert("로그인 후 이용가능합니다.");
-    }
-  };
-
-  const onClickDeletePostHandler = () => {
-    if (isLogin === true) {
-      dispatch(__deletePost(id));
-    } else {
-      alert("로그인 후 이용가능합니다.");
-    }
-  };
-
-  // if (isLoading) {
-  //   return <div>로딩 중....</div>;
-  // }
-  console.log(isLogin);
-
+  if (isLoading) {
+    return <div style={{ color: "#fff" }}>로딩 중....</div>;
+  }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
   return (
     <Inner>
       <LeftContainer>
-        <Video></Video>
-        <VideoTitle>제목을 달아주세요</VideoTitle>
+        <Vedeo></Vedeo>
+        <VedeoTitle>{post.title}</VedeoTitle>
+
         <SideBar>
           <LeftItem>
             <Icon></Icon>
             <Channel>
-              <ChannelName href="/">ㄴㄴ</ChannelName>
+              <ChannelName href="/">{post.username}</ChannelName>
               <ChannelCount>구독자 1.51천명</ChannelCount>
             </Channel>
             <SubBtn>
@@ -86,7 +66,7 @@ function DetailPage() {
         </SideBar>
         <MainContent>
           <MainTitle>조회수: 7.8만회 2일 전</MainTitle>
-          <MainContents>지금 바로 등록해보세요</MainContents>
+          <MainContents>{post.content}</MainContents>
         </MainContent>
 
         <Comments isLogin={isLogin} />
@@ -97,6 +77,23 @@ function DetailPage() {
           <Category>관련 콘텐츠</Category>
           <Category category>실시간</Category>
         </SideCategory>
+
+        {post?.map((post) => {
+          return (
+            <StyledLink to={`/detail/${post.num}`} key={post.num}>
+              <SideItem>
+                <SideImg alt="SideImage" src={post.imageUrl}></SideImg>
+                <SideText>
+                  <SideTitle>{post.title}</SideTitle>
+                  <SideContent>
+                    <Chennel>{post.content}</Chennel>
+                    <Dates>조회수: 100 , 1년</Dates>
+                  </SideContent>
+                </SideText>
+              </SideItem>
+            </StyledLink>
+          );
+        })}
         <SideItem>
           <SideImg></SideImg>
           <SideText>
@@ -350,7 +347,7 @@ const SideItem = styled.div`
   margin-top: 20px;
 `;
 
-const SideImg = styled.div`
+const SideImg = styled.img`
   width: 160px;
   height: 100px;
   background-color: #fff;
@@ -383,8 +380,14 @@ const Chennel = styled.div`
   color: grey;
   background-color: transparent;
 `;
+
 const Dates = styled.div`
   font-size: 13px;
   color: grey;
   background-color: transparent;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
 `;
