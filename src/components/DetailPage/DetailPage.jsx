@@ -1,7 +1,66 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
+import Comments from "../Comment/Comment";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import {
+  __getPost,
+  __postLike,
+  __deletePost,
+} from "../../redux/modules/postSlice";
 
 function DetailPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const isLoading = useSelector(
+    (state) => state.post.isLoading // 하나가 바뀌어도 다 바뀐다.
+  );
+  const post = useSelector(
+    (state) => state.post.post // 하나가 바뀌어도 다 바뀐다.
+  );
+  const [isLogin, setIslogin] = useState(false);
+
+  useEffect(() => {
+    // console.log(localStorage.getItem("id") !== null);
+    if (localStorage.getItem("id") !== null) {
+      setIslogin(true);
+    }
+    // console.log(isLogin);
+    dispatch(__getPost(Number(id)));
+  }, [dispatch, id]);
+
+  console.log(post);
+  // console.log(checkPostLike);
+  // console.log(likeCount);
+
+  const onClickEditPostHandler = (nickname) => {
+    if (isLogin === true) {
+      if (nickname === localStorage.getItem("nickname")) {
+        navigate(`/editpost/${id}`);
+      } else {
+        alert("타인의 게시물을 수정할 수 없습니다.");
+      }
+    } else {
+      alert("로그인 후 이용가능합니다.");
+    }
+  };
+
+  const onClickDeletePostHandler = () => {
+    if (isLogin === true) {
+      dispatch(__deletePost(id));
+    } else {
+      alert("로그인 후 이용가능합니다.");
+    }
+  };
+
+  // if (isLoading) {
+  //   return <div>로딩 중....</div>;
+  // }
+  console.log(isLogin);
+
   return (
     <Inner>
       <LeftContainer>
@@ -29,6 +88,8 @@ function DetailPage() {
           <MainTitle>조회수: 7.8만회 2일 전</MainTitle>
           <MainContents>지금 바로 등록해보세요</MainContents>
         </MainContent>
+
+        <Comments isLogin={isLogin} />
       </LeftContainer>
       <RightContainer>
         <SideCategory>
@@ -170,6 +231,20 @@ const MainContent = styled.div`
   margin: 20px 0 0 20px;
   border-radius: 10px;
 `;
+
+// const CommentBox = styled.div`
+//   max-width: 1300px;
+//   height: auto;
+//   background-color: #2e2e2e;
+//   padding: 5px 10px 10px 10px;
+//   margin: 20px 0 0 20px;
+//   border-radius: 10px;
+// `;
+
+// const CommentP = styled.p`
+//   color: white;
+//   background-color: transparent;
+// `;
 
 const MainTitle = styled.div`
   font-size: 15px;

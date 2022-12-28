@@ -22,7 +22,9 @@ export const baseURL = axios.create({
 baseURL.interceptors.request.use((config) => {
   if (config.headers === undefined) return;
   const token = localStorage.getItem("num");
-  config.headers["Authorization"] = `${token}`;
+  config.headers["Authorization"] =
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QzIiwiYXV0aCI6IiIsImV4cCI6MTY3MjIzOTgzNSwiaWF0IjoxNjcyMjM2MjM1fQ.T1CMoUY2AqrUhtKxQKhr0QCijcO79Gk5Np_QeoPb4-M";
+  //  `${token}`;
   return config;
 });
 
@@ -32,8 +34,8 @@ export const apis = {
   //(객체형식->)언제든 편하게 갖다쓰려고 나눠서 씀
 
   //로그인 관련 apis
-  postLogin: (login) => instance.post("/api/user/login", login),
-  postSignup: (signup) => instance.post("/api/user/signup", signup),
+  postLogin: (login) => instance.post("/login", login),
+  postSignup: (signup) => instance.post("/signup", signup),
 
   //게시글 관련 apis //instance
   createPost: (post) => {
@@ -44,11 +46,11 @@ export const apis = {
   },
   //추가
   getPost: () => baseURL.get("/posts"), //조회,
-  editPosting: (num, post) => baseURL.put(`/post/${num}`, post),
-  getPostId: (num) => baseURL.get(`/post/${num}`), //조회
-  getMyPage: () => baseURL.get("/mypage/myposts"), //조회
-  getMyPageComments: () => baseURL.get("/mypage/mypost/comments"), //조회
-  deletePost: (num) => baseURL.delete(`/post/${num}`), //삭제
+  deletePost: (num) => baseURL.delete(`/posts/${num}`), //삭제
+  editPost: (num, post) => baseURL.put(`/posts/${num}`, post),
+  // getPostId: (num) => baseURL.get(`/post/${num}`), //조회
+  // getMyPage: () => baseURL.get("/mypage/myposts"), //조회
+  // getMyPageComments: () => baseURL.get("/mypage/mypost/comments"), //조회
 
   // 내가 사용할 변수이름 : (넘겨줄 값 ex.payload) => baseUrl.api메소드("api명세서 url", 넘겨줄 값ex.payload)
   // 넘겨줄값이 없을경우 비워둔다.

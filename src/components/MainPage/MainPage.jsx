@@ -2,7 +2,14 @@ import SideBar from "../SideBar/SideBar";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { __getPost } from "../../redux/modules/postSlice";
+import { useNavigate } from "react-router-dom";
+import {
+  __deletePost,
+  __getPost,
+  __editPost,
+} from "../../redux/modules/postSlice";
+import { useState } from "react";
+
 // import { Navigate } from "react-router-dom";
 
 // const cardLists = [ //맵돌리기전 가짜카드
@@ -24,6 +31,7 @@ import { __getPost } from "../../redux/modules/postSlice";
 // ];
 
 function MainPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const playPosts = useSelector((state) => state.posts.posts);
   console.log("playPosts:", playPosts);
@@ -38,21 +46,31 @@ function MainPage() {
     // });
   }, []);
 
+  const delete_post = (num) => {
+    if (window.confirm("post를 삭제하시겠습니까?")) {
+      console.log(num);
+      dispatch(__deletePost(num));
+    }
+  };
+
   return (
     <StDiv All>
       <div className="contents">
         <StDiv ContentContainer>
+          <button>업로드</button>
           <StDiv ContentsBox>
             {playPosts.map((cardList) => {
               console.log(cardList);
               return (
-                <StDiv ContentCard key={cardList.num}>
-                  <StBtn CardBtn>수정</StBtn>
-                  <StBtn CardBtn>삭제</StBtn>
+                <StDiv
+                  ContentCard
+                  key={cardList.num}
+                  // onClick={()=>navigate("detail/:num")}
+                >
                   <StDiv ContentCardImg>
                     <StImg
                       thumnailImg
-                      src={cardList.videoFile}
+                      src={cardList.imageFile}
                       alt={cardList.videoFile}
                     />
                   </StDiv>
@@ -75,6 +93,25 @@ function MainPage() {
                         </span>
                       </StDiv>
                     </StDiv>
+                  </StDiv>
+                  <StDiv BtnBox>
+                    <StBtn
+                      CardBtn
+                      onClick={() => {
+                        navigate("detailedit/:num");
+                      }}
+                    >
+                      수정
+                    </StBtn>
+                    <StBtn
+                      CardBtn
+                      onClick={() => {
+                        delete_post(cardList.num);
+                        console.log(cardList.num);
+                      }}
+                    >
+                      삭제
+                    </StBtn>
                   </StDiv>
                 </StDiv>
               );
@@ -105,12 +142,13 @@ const StDiv = styled.div`
   ${(props) =>
     props.ContentsBox &&
     css`
-      height: 100%px;
+      height: 100%;
       width: 100%;
       max-width: 1344px;
       min-width: auto;
       display: flex;
       margin: 50px 0 0 260px;
+      flex-wrap: wrap;
     `}
 
   ${(props) =>
@@ -129,6 +167,7 @@ const StDiv = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-bottom: 5px;
     `}
 
   ${(props) =>
@@ -166,6 +205,13 @@ const StDiv = styled.div`
         color: orange;
       }
       font-size: 12px;
+    `} 
+
+    ${(props) =>
+    props.CardBtn &&
+    css`
+      display: flex;
+      flex-direction: <flex-end></flex-end>;
     `}
 `;
 
@@ -201,7 +247,7 @@ const StBtn = styled.button`
       width: 50px;
       height: 25px;
       background-color: skyblue;
-      display: flex;
+      margin-right: 10px;
     `};
 `;
 export default MainPage;

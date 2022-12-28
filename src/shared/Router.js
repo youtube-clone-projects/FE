@@ -10,6 +10,7 @@ import SignIn from "../pages/SignIn";
 // import DetailEditPage from "../pages/DetailEditPage";
 // import EditPost from "../components/Post/EditPost";
 import SignUp from "../pages/SignUp";
+import EditPost from "../components/Posting/EditPost";
 // 2. Router 라는 함수를 만들고 아래와 같이 작성합니다.
 //BrowserRouter를 Router로 감싸는 이유는,
 //SPA의 장점인 브라우저가 깜빡이지 않고 다른 페이지로 이동할 수 있게 만들어줍니다!
@@ -20,7 +21,7 @@ const Router = () => {
         <Route path="/" element={<Main />} />
         <Route path="detail/:num" element={<DetailPage />} />
         <Route path="mypage" element={<MyPage />} />
-        {/* <Route path="detailedit/:id" element={<DetailEditPage />} /> */}
+        <Route path="detailedit/:num" element={<EditPost />} />
         <Route path="posting" element={<PostingPage />} />
         <Route path="signin" element={<SignIn />} />
         <Route path="signup" element={<SignUp />} />
