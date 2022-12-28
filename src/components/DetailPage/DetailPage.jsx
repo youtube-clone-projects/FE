@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,6 +45,7 @@ function DetailPage() {
       <LeftContainer>
         <Vedeo></Vedeo>
         <VedeoTitle>{post.title}</VedeoTitle>
+
         <SideBar>
           <LeftItem>
             <Icon></Icon>
@@ -66,6 +68,8 @@ function DetailPage() {
           <MainTitle>조회수: 7.8만회 2일 전</MainTitle>
           <MainContents>{post.content}</MainContents>
         </MainContent>
+
+        <Comments isLogin={isLogin} />
       </LeftContainer>
       <RightContainer>
         <SideCategory>
@@ -136,7 +140,7 @@ const RightContainer = styled.div`
   flex-direction: column;
 `;
 
-const Vedeo = styled.div`
+const Video = styled.div`
   max-width: 1300px;
   width: 100%;
   height: 534px;
@@ -144,7 +148,7 @@ const Vedeo = styled.div`
   background-color: #fff;
 `;
 
-const VedeoTitle = styled.div`
+const VideoTitle = styled.div`
   font-size: 24px;
   font-weight: bold;
   line-height: 28px;
@@ -224,6 +228,20 @@ const MainContent = styled.div`
   margin: 20px 0 0 20px;
   border-radius: 10px;
 `;
+
+// const CommentBox = styled.div`
+//   max-width: 1300px;
+//   height: auto;
+//   background-color: #2e2e2e;
+//   padding: 5px 10px 10px 10px;
+//   margin: 20px 0 0 20px;
+//   border-radius: 10px;
+// `;
+
+// const CommentP = styled.p`
+//   color: white;
+//   background-color: transparent;
+// `;
 
 const MainTitle = styled.div`
   font-size: 15px;
@@ -307,6 +325,7 @@ const Category = styled.div`
   border-radius: 30px;
   font-size: 16px;
   margin-left: 10px;
+
   ${(props) =>
     props.all &&
     css`
