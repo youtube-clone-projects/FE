@@ -5,8 +5,8 @@ function DetailPage() {
   return (
     <Inner>
       <LeftContainer>
-        <Vedeo></Vedeo>
-        <VedeoTitle>제목을 달아주세요</VedeoTitle>
+        <Video></Video>
+        <VideoTitle>제목을 달아주세요</VideoTitle>
         <SideBar>
           <LeftItem>
             <Icon></Icon>
@@ -82,7 +82,7 @@ const RightContainer = styled.div`
   flex-direction: column;
 `;
 
-const Vedeo = styled.div`
+const Video = styled.div`
   max-width: 1300px;
   width: 100%;
   height: 534px;
@@ -90,7 +90,7 @@ const Vedeo = styled.div`
   background-color: #fff;
 `;
 
-const VedeoTitle = styled.div`
+const VideoTitle = styled.div`
   font-size: 24px;
   font-weight: bold;
   line-height: 28px;
@@ -253,6 +253,7 @@ const Category = styled.div`
   border-radius: 30px;
   font-size: 16px;
   margin-left: 10px;
+
   ${(props) =>
     props.all &&
     css`
