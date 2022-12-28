@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,8 +42,8 @@ function DetailPage() {
   return (
     <Inner>
       <LeftContainer>
-        <Vedeo></Vedeo>
-        <VedeoTitle>{post.title}</VedeoTitle>
+        <Video></Video>
+        <VideoTitle>{post.title}</VideoTitle>
 
         <SideBar>
           <LeftItem>
@@ -69,7 +68,7 @@ function DetailPage() {
           <MainContents>{post.content}</MainContents>
         </MainContent>
 
-        <Comments isLogin={isLogin} />
+        {/* <Comments isLogin={isLogin} /> */}
       </LeftContainer>
       <RightContainer>
         <SideCategory>
