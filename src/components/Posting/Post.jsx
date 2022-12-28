@@ -82,7 +82,7 @@ const Post = () => {
         onSubmit={(e) => {
           e.preventDefault();
           onSubmitHandler(post);
-          // navigate("/");
+          navigate("/");
         }}
       >
         <Container>
@@ -177,6 +177,7 @@ const TextUpload = styled.div`
   font-size: 36px;
   color: #fff;
   margin-bottom: 30px;
+  margin-top: 94px;
 `;
 
 const Container = styled.div`

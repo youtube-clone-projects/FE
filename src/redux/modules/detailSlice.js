@@ -11,20 +11,20 @@ const initialState = {
   error: null,
 };
 
-export const __getPost = createAsyncThunk(
+export const __getPosts = createAsyncThunk(
   "getPost",
   async (payload, thunkAPI) => {
     try {
       // const [id, indexList] = payload;
 
       const { data } = await axios.get(
-        `https://www.sparta-sjl.shop/api/posts/${payload}`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
-          },
-        }
+        `https://www.sparta-sjl.shop/api/posts/${payload}`
+        // {
+        //   headers: {
+        //     Authorization:
+        //       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
+        //   },
+        // }
       );
       console.log(data);
       return thunkAPI.fulfillWithValue(data);
@@ -181,15 +181,15 @@ export const detailSlice = createSlice({
   reducers: {},
   extraReducers: {
     ////////////////////// GETPOST /////////////////////////
-    [__getPost.pending]: (state) => {
+    [__getPosts.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
-    [__getPost.fulfilled]: (state, action) => {
+    [__getPosts.fulfilled]: (state, action) => {
       state.isLoading = false; // 네트워크 요청이 끝났으니, false로 변경합니다.
       state.post = action.payload; // Store에 있는 todos에 서버에서 가져온 todos를 넣습니다.
       // state.commentList = action.payload.commentList;
     },
-    [__getPost.rejected]: (state, action) => {
+    [__getPosts.rejected]: (state, action) => {
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     },

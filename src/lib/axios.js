@@ -21,15 +21,12 @@ export const baseURL = axios.create({
 
 baseURL.interceptors.request.use((config) => {
   if (config.headers === undefined) return;
-  const token = localStorage.getItem("num");
-  config.headers["Authorization"] =
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QzIiwiYXV0aCI6IiIsImV4cCI6MTY3MjIzOTgzNSwiaWF0IjoxNjcyMjM2MjM1fQ.T1CMoUY2AqrUhtKxQKhr0QCijcO79Gk5Np_QeoPb4-M";
-  //  `${token}`;
+  const token = localStorage.getItem("id");
+  config.headers["Authorization"] = `${token}`;
   return config;
 });
 
 export const apis = {
-
   // 로그인 관련
   postLogin: (login) => instance.post("/login", login),
   postSignup: (signup) => instance.post("/signup", signup),
@@ -37,7 +34,6 @@ export const apis = {
   //관리하기 편하려고 만듬
   //똑같은 api인데 다르게 동작할 수 있기도 하고
   //(객체형식->)언제든 편하게 갖다쓰려고 나눠서 씀
-
 
   //게시글 관련 apis //instance
   createPost: (post) => {
@@ -66,5 +62,4 @@ export const apis = {
 
   //좋아요 관련 apis
   clickLike: (num) => baseURL.post(`likes/${num}`),
-
 };

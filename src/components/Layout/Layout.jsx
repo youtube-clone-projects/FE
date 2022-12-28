@@ -9,6 +9,7 @@ const Layout = ({ children }) => {
 const StLayout = styled.div`
   max-width: 1700px;
   width: 95%;
+
   margin: 0 auto;
   padding-top: 30px;
 `;

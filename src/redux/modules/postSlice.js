@@ -10,6 +10,19 @@ const initialState = {
   error: null,
 };
 
+export const __getList = createAsyncThunk(
+  "getList",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await axios.get(`https://www.sparta-sjl.shop/api/posts`);
+      console.log(data);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 //   ------mypage-------
 
 //내가 작성한 게시글 조회
@@ -17,20 +30,20 @@ export const __getPost = createAsyncThunk(
   "getPost",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        `https://www.sparta-sjl.shop/api/posts`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
-          },
-        }
-      );
-      console.log(data);
-      return thunkAPI.fulfillWithValue(data);
-    } catch (error) {
-      console.log(error);
-      return thunkAPI.rejectWithValue(error);
+      // const { data } = await axios.get(
+      //   `https://www.sparta-sjl.shop/api/posts`,
+      //   {
+      //     headers: {
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
+      //     },
+      //   }
+      // );
+      // console.log(data);
+      //   return thunkAPI.fulfillWithValue(data);
+      // } catch (error) {
+      //   console.log(error);
+      //   return thunkAPI.rejectWithValue(error);
 
       const data = await apis.getPost();
       console.log("로딩데이터: ", data);
@@ -40,7 +53,6 @@ export const __getPost = createAsyncThunk(
     } catch (err) {
       console.log(err);
       return thunkAPI.rejectWithValue(err);
-
     }
   }
 );
@@ -50,17 +62,15 @@ export const __postPost = createAsyncThunk(
   "postPost",
   async (payload, thunkAPI) => {
     try {
-
       for (const pair of payload) {
         console.log(pair[0] + ", " + pair[1]);
       }
       console.log("payload :", payload);
-      const data = await apis.createPost(payload);
-      // const data = await axios.post(
-      //   `https://www.sparta-sjl.shop/api/posts`,
-      //   payload
-      // );
-
+      // const data = await apis.createPost(payload);
+      const data = await axios.post(
+        `https://www.sparta-sjl.shop/api/posts`,
+        payload
+      );
 
       console.log("POST 추가 데이터", data);
       return thunkAPI.fulfillWithValue(data.data);
@@ -70,7 +80,6 @@ export const __postPost = createAsyncThunk(
     }
   }
 );
-
 
 export const __getMyPage = createAsyncThunk(
   "getMyPage",
@@ -98,9 +107,7 @@ export const __deletePost = createAsyncThunk(
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QzIiwiYXV0aCI6IiIsImV4cCI6MTY3MjIzOTgzNSwiaWF0IjoxNjcyMjM2MjM1fQ.T1CMoUY2AqrUhtKxQKhr0QCijcO79Gk5Np_QeoPb4-M",
-            // localStorage.getItem("num"),
+            Authorization: localStorage.getItem("num"),
           },
         }
       );
@@ -150,7 +157,6 @@ export const __editPost = createAsyncThunk(
   }
 );
 
-
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -160,6 +166,17 @@ export const postSlice = createSlice({
   },
   //   },
   extraReducers: {
+    [__getList.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getList.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.post = action.payload;
+    },
+    [__getList.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
     // export const { addPosting } = postSlice.actions;
     // --------------------------
     // 리스트 불러오기 ---------------
@@ -175,7 +192,6 @@ export const postSlice = createSlice({
       state.isSuccess = true;
       console.log(action.payload);
       state.posts = action.payload;
-
     },
     [__getPost.rejected]: (state, action) => {
       state.isLoading = false; //코드에 오류가 났을때 reject
@@ -183,7 +199,6 @@ export const postSlice = createSlice({
       // 에러 발생-> 네트워크 요청은 끝,false
       // catch 된 error 객체를 state.error에 넣습니다.
     },
-
 
     // //---마이페이지 조회
     // [__getMyPage.pending]: (state) => {
@@ -236,7 +251,6 @@ export const postSlice = createSlice({
 
       const newPost = state.posts.filter((t) => t.num !== action.payload);
       state.posts = [...newPost];
-
     },
     [__deletePost.rejected]: (state, action) => {
       state.isLoading = false;

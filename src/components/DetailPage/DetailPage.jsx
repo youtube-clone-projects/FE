@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { __getList } from "../../redux/modules/postSlice";
+import { __getList } from "../../redux/modules/postingSlice";
 import { Link } from "react-router-dom";
 import {
-  __getPost,
+  __getPosts,
   __deletePost,
   __getComments,
   __deleteComments,
@@ -17,7 +17,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 function DetailPage() {
   const { isLoading, error, posts } = useSelector((state) => state.detail);
-  const { post } = useSelector((state) => state.post);
+  const { post } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function DetailPage() {
 
   useEffect(() => {
     dispatch(__getList());
-    dispatch(__getPost(Number(id)));
+    dispatch(__getPosts(Number(id)));
     console.log(id);
   }, [dispatch]);
 
@@ -43,13 +43,13 @@ function DetailPage() {
     <Inner>
       <LeftContainer>
         <Video></Video>
-        <VideoTitle>{post.title}</VideoTitle>
+        <VideoTitle>{posts.title}</VideoTitle>
 
         <SideBar>
           <LeftItem>
             <Icon></Icon>
             <Channel>
-              <ChannelName href="/">{post.username}</ChannelName>
+              <ChannelName href="/">{posts.username}</ChannelName>
               <ChannelCount>구독자 1.51천명</ChannelCount>
             </Channel>
             <SubBtn>
@@ -65,7 +65,7 @@ function DetailPage() {
         </SideBar>
         <MainContent>
           <MainTitle>조회수: 7.8만회 2일 전</MainTitle>
-          <MainContents>{post.content}</MainContents>
+          <MainContents>{posts.content}</MainContents>
         </MainContent>
 
         {/* <Comments isLogin={isLogin} /> */}
@@ -77,7 +77,7 @@ function DetailPage() {
           <Category category>실시간</Category>
         </SideCategory>
 
-        {post?.map((post) => {
+        {posts?.map((post) => {
           return (
             <StyledLink to={`/detail/${post.num}`} key={post.num}>
               <SideItem>
