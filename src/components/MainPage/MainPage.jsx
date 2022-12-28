@@ -1,34 +1,43 @@
 import SideBar from "../SideBar/SideBar";
 import styled, { css } from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { __getPost } from "../../redux/modules/postSlice";
+// import { Navigate } from "react-router-dom";
 
-const cardLists = [
-  {
-    id: 1,
-    img: "블라블라",
-    title: "시녕까까",
-    channelUrl: "정은땅",
-  },
-  {
-    id: 2,
-    img: "블라블라",
-    title: "시녕꾸꾸",
-    channelUrl: "정은땅",
-  },
-  {
-    id: 3,
-    img: "블라블라",
-    title: "시녕꼬꼬",
-    channelUrl: "정은땅",
-  },
-  {
-    id: 4,
-    img: "블라블라",
-    title: "시녕꼬꼬",
-    channelUrl: "정은땅",
-  },
-];
+// const cardLists = [ //맵돌리기전 가짜카드
+//   {
+//     num: 1,
+//     videoFile: "썸네일",
+//     imageFile: "프사",
+//     title: "시녕까까",
+//     username: "정은땅",
+
+//   },
+//   {
+//     num: 2,
+//     videoFile: "썸네일",
+//     imageFile: "프사",
+//     title: "시녕꼬꼬",
+//     username: "정은땅",
+//   },
+// ];
 
 function MainPage() {
+  const dispatch = useDispatch();
+  const playPosts = useSelector((state) => state.posts.posts);
+  console.log("playPosts:", playPosts);
+
+  useEffect(() => {
+    dispatch(__getPost());
+
+    // .then((res) => {
+
+    //   setPosts(res.data.data);
+    //   console.log("useEffect :", res);
+    // });
+  }, []);
+
   return (
     <StDiv All>
       <SideBar />
@@ -36,23 +45,34 @@ function MainPage() {
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
-            {cardLists.map((cardList) => {
+            {playPosts.map((cardList) => {
               console.log(cardList);
               return (
-                <StDiv ContentCard>
+                <StDiv ContentCard key={cardList.num}>
                   <StDiv ContentCardImg>
-                    <img src={cardList.img} alt={cardList.img} />
+                    <StImg
+                      thumnailImg
+                      src={cardList.videoFile}
+                      alt={cardList.videoFile}
+                    />
                   </StDiv>
                   <StDiv ContentCardChan>
-                    <StDiv ChanImg>졍</StDiv>
+                    <StImg ChanImg src={cardList.imageFile} alt="프로필사진" />
                     <StDiv ContentCardTxt>
                       <StSpan ContentTitle>{cardList.title}</StSpan>
                       <StDiv ContentContents>
                         <div>
-                          <a href="채널 이동될 주소">{cardList.channelUrl}</a>
+                          <a href="채널 이동될 주소">{cardList.username}</a>
                           {/* a 안먹힐 수도 있어서 링크나 네비게이트로 바꾸기 */}
                         </div>
-                        <span ClassName="viewDate"></span>
+                        <span className="viewDate">
+                          {`${cardList.createdAt[0]}-${cardList.createdAt[1]}-${cardList.createdAt[2]}`}
+                          {/* 문자열이랑 {자바스크립트 내용}같이 쓰려면 template literals 쓰기! */}
+                        </span>
+                        <br />
+                        <span className="viewDate">
+                          {`${cardList.createdAt[3]}:${cardList.createdAt[4]}:${cardList.createdAt[5]}`}
+                        </span>
                       </StDiv>
                     </StDiv>
                   </StDiv>
@@ -129,15 +149,7 @@ const StDiv = styled.div`
       background-color: pink;
     `}
 
-  ${(props) =>
-    props.ChanImg &&
-    css`
-      width: 36px;
-      height: 36px;
-      background-color: blue;
-      border-radius: 50%;
-      margin: 12px 12px 0 0;
-    `}
+  
 
   ${(props) =>
     props.ContentCardTxt &&
@@ -164,5 +176,22 @@ const StSpan = styled.span`
       font-size: 14px;
     `}
 `;
+const StImg = styled.img`
+  ${(props) =>
+    props.thumnailImg &&
+    css`
+      width: 295.99px;
+      height: 166.49px;
+      border-radius: 15px;
+    `}
 
+  ${(props) =>
+    props.ChanImg &&
+    css`
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin: 12px 12px 0 0;
+    `}
+`;
 export default MainPage;

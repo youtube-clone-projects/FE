@@ -5,6 +5,7 @@ import Layout from "../components/Layout/Layout";
 import Main from "../pages/Main";
 import PostingPage from "../pages/Posts";
 import DetailPage from "../pages/Detail";
+import MyPage from "../pages/MyPage";
 // import DetailEditPage from "../pages/DetailEditPage";
 // import EditPost from "../components/Post/EditPost";
 // import SignIn from "../pages/SingIn";
@@ -17,8 +18,8 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="detail" element={<DetailPage />} />
-        {/* <Route path="detailedit/:id" element={<EditPost />} /> */}
+        <Route path="detail/:num" element={<DetailPage />} />
+        <Route path="mypage" element={<MyPage />} />
         {/* <Route path="detailedit/:id" element={<DetailEditPage />} /> */}
         <Route path="posting" element={<PostingPage />} />
         {/* <Route path="signin" element={<SignIn />} /> */}

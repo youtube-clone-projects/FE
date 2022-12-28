@@ -1,24 +1,68 @@
 import styled, { css } from "styled-components";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { apis } from "../../lib/axios";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { __deletePost, __getMyPage } from "../../redux/modules/postSlice";
 
-function My() {
-  return (
-    <div>
-      <StDiv MyAll>
-        <StDiv ChanHead>
-          <StDiv ChanHeadMe>
-            <StDiv ProfileImg>Img</StDiv>
-            <StDiv ProfileName>정은</StDiv>
+const My = (props) => {
+  const [posts, setPosts] = useState();
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  useEffect(() => {
+    dispatch(__getMyPage());
+
+    // .then((res) => {
+
+    //   setPosts(res.data.data);
+    //   console.log("useEffect :", res);
+    // });
+  }, []);
+
+  const onDeleteHandler = (num) => {
+    console.log("이거 아이디 : ", num);
+    if (window.confirm("post를 삭제하시겠습니까?")) {
+      console.log(num);
+      dispatch(__deletePost(num));
+    }
+
+    return (
+      <div>
+        <StDiv MyAll>
+          <StDiv ChanHead>
+            <StDiv ChanHeadMe>
+              <StDiv ProfileImg>Img</StDiv>
+              <StDiv ProfileName>정은</StDiv>
+            </StDiv>
+          </StDiv>
+          <StDiv ChanHeadCategory>
+            <StDiv ChanHeadTap>업로드 목록</StDiv>
+          </StDiv>
+          <StDiv ChanBody>
+            내가 업로드한 영상
+            {props.cardList}
+            <StBtn MyBtn>수정하기</StBtn>
+            <StBtn
+              MyBtn
+              onClick={() => {
+                onDeleteHandler(posts.id);
+              }}
+            >
+              삭제하기
+            </StBtn>
+          </StDiv>
+          <StDiv ChanBody>
+            내가 작성한 댓글
+            <StBtn MyBtn>수정하기</StBtn>
+            <StBtn MyBtn>삭제하기</StBtn>
           </StDiv>
         </StDiv>
-        <StDiv ChanHeadCategory>
-          <StDiv ChanHeadTap>업로드 목록</StDiv>
-        </StDiv>
-        <StDiv ChanBody>내가 업로드한 영상</StDiv>
-      </StDiv>
-    </div>
-  );
-}
-
+      </div>
+    );
+  };
+};
 const StDiv = styled.div`
   ${(props) =>
     props.MyAll &&
@@ -104,6 +148,20 @@ const StDiv = styled.div`
       justify-content: center;
       align-items: center;
       margin: 0 auto;
+    `}
+`;
+
+const StBtn = styled.button`
+  ${(props) =>
+    props.MyBtn &&
+    css`
+      width: 100px;
+      height: 30px;
+      background-color: pink;
+      display: flex;
+      flex-direction: row;
+      cursor: pointer;
+      margin-right: 10px;
     `}
 `;
 
