@@ -24,7 +24,7 @@ const SideBar = () => {
               <span>홈</span>
             </StDiv>
             <StDiv CategoryGuide>
-              <span class="material-symbols-outlined">play_circle</span>
+              <span className="material-symbols-outlined">play_circle</span>
               <span>Shorts</span>
             </StDiv>
             <StDiv CategoryGuide>
@@ -248,6 +248,7 @@ const StDiv = styled.div`
       min-width: auto;
       min-height: auto;
       display: block;
+      margin-top: 58px;
       overflow: hidden auto;
       outline: rgb(255, 0, 0) dashed 1px;
       color: #fff;

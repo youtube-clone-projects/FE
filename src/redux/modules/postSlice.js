@@ -33,7 +33,11 @@ export const __postPost = createAsyncThunk(
   "postPost",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.apis.postPost(payload);
+      console.log("payload :", payload);
+      const data = await axios.post(
+        `https://www.sparta-sjl.shop/api/posts`,
+        payload
+      );
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -62,20 +66,24 @@ export const __deletePost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const deletedata = await axios.deletePost(
-        `http://www.sparta-sjl.shop/api/post/${payload.num}`,
+      const deletedata = await apis.deletePost(
+        payload,
 
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
-            Authorization: localStorage.getItem("id"),
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QzIiwiYXV0aCI6IiIsImV4cCI6MTY3MjIzOTgzNSwiaWF0IjoxNjcyMjM2MjM1fQ.T1CMoUY2AqrUhtKxQKhr0QCijcO79Gk5Np_QeoPb4-M",
+            // localStorage.getItem("num"),
           },
         }
       );
+
       // await axios.delete(`http://localhost:3000/post/${payload}`, payload);
 
       // console.log("데이터삭제, 리듀서는 id값 주기: ", payload);
       console.log("POST 삭제 데이터", deletedata);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (err) {
       console.log(err);
       return thunkAPI.rejectWithValue(err);
@@ -84,8 +92,8 @@ export const __deletePost = createAsyncThunk(
 );
 
 //게시글 수정
-export const __editEndPosting = createAsyncThunk(
-  "editEndPosting",
+export const __editPost = createAsyncThunk(
+  "editPost",
   async (payload, thunkAPI) => {
     console.log("payload :", payload);
     const form = new FormData();
@@ -96,19 +104,15 @@ export const __editEndPosting = createAsyncThunk(
     console.log(form);
 
     try {
-      const data = await axios.put(
-        `http://www.sparta-sjl.shop/api/posts/${payload.num}`,
-        form,
-        {
-          //
-          // const data = await axios.post("http://3.34.98.133/api/post", form, {
-          //이거 오리지널(이미지를 여러개 받기 불편)
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: localStorage.getItem("id"),
-          },
-        }
-      );
+      const data = await apis.editPost(form, {
+        //
+        // const data = await axios.post("http://3.34.98.133/api/post", form, {
+        //이거 오리지널(이미지를 여러개 받기 불편)
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("num"),
+        },
+      });
 
       console.log("POST 추가 데이터", data);
       //   return thunkAPI.fulfillWithValue(data);
@@ -196,10 +200,10 @@ export const postSlice = createSlice({
     },
     [__deletePost.fulfilled]: (state, action) => {
       // 미들웨어를 통해 받은 action값이 무엇인지 항상 확인한다
-      console.log("action-서버값", action.payload);
+      console.log("action-서버값", typeof action.payload);
       state.isLoading = false;
-      const newPost = state.post.filter((t) => t.num !== action.payload);
-      state.post = [...newPost];
+      const newPost = state.posts.filter((t) => t.num !== action.payload);
+      state.posts = [...newPost];
     },
     [__deletePost.rejected]: (state, action) => {
       state.isLoading = false;
@@ -222,11 +226,12 @@ export const postSlice = createSlice({
     //   state.isLoading = false;
     //   state.error = action.payload;
     // },
+
     // // 수정 완료 버튼 클릭 -----------------
-    [__editEndPosting.pending]: (state) => {
+    [__editPost.pending]: (state) => {
       state.isLoading = true;
     },
-    [__editEndPosting.fulfilled]: (state, action) => {
+    [__editPost.fulfilled]: (state, action) => {
       // console.log('state-store값',state.diary)
       console.log("action-서버값", action);
       state.isLoading = false;
@@ -234,11 +239,12 @@ export const postSlice = createSlice({
       state.post[index] = action.payload;
       state.post = [...state.post];
     },
-    [__editEndPosting.rejected]: (state, action) => {
+    [__editPost.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
+    // ----------------------------------
     [__postPost.pending]: (state) => {
       state.isLoading = true;
     },
