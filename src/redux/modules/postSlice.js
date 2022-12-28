@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { apis } from "../../lib/axios";
 
 const initialState = {
   postList: [],
@@ -12,9 +13,17 @@ export const __getList = createAsyncThunk(
   "getList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`http://54.180.105.27:8080/api/posts`);
+      const { data } = await axios.get(
+        `https://www.sparta-sjl.shop/api/posts`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
+          },
+        }
+      );
       console.log(data);
-      return thunkAPI.fulfillWithValue(data.postList);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
@@ -22,50 +31,29 @@ export const __getList = createAsyncThunk(
   }
 );
 
+// 데이터 추가
 export const __postPost = createAsyncThunk(
   "postPost",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.apis.postPost(payload);
+      for (const pair of payload) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+      console.log("payload :", payload);
+      const data = await apis.createPost(payload);
+      // const data = await axios.post(
+      //   `https://www.sparta-sjl.shop/api/posts`,
+      //   payload
+      // );
 
+      console.log("POST 추가 데이터", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
-
-// export const __patchPost = createAsyncThunk("patchPost", async (payload) => {
-//   try {
-//     console.log(payload);
-//     await axios.put(
-//       `http://54.180.105.27:8080/api/post/${payload[0]}`,
-//       payload[1],
-//       {
-//         headers: {
-//           Authorization:
-//             "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
-//         },
-//       }
-//     );
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
-// export const __getPost = createAsyncThunk(
-//   "getPost",
-//   async (payload, thunkAPI) => {
-//     try {
-//       const { data } = await axios.get(
-//         `http://54.180.105.27:8080/api/post/${payload}`
-//       );
-//       return thunkAPI.fulfillWithValue(data);
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
 
 export const postSlice = createSlice({
   name: "post",
@@ -77,25 +65,25 @@ export const postSlice = createSlice({
     },
     [__getList.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.posts = action.payload;
+      state.post = action.payload;
     },
     [__getList.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-
     [__postPost.pending]: (state) => {
       state.isLoading = true;
     },
     [__postPost.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log(state.posts);
       state.posts.push(action.payload);
+      // state.posts = [...state.posts, action.payload];
     },
     [__postPost.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-
     // [__getPost.pending]: (state) => {
     //   state.isLoading = true;
     // },

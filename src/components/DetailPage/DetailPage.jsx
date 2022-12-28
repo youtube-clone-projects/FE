@@ -1,17 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { __getList } from "../../redux/modules/postSlice";
+import { Link } from "react-router-dom";
+import {
+  __getPost,
+  __deletePost,
+  __getComments,
+  __deleteComments,
+  __editComments,
+  __addComments,
+  __likeButton,
+} from "../../redux/modules/detailSlice";
+import { useParams, useNavigate } from "react-router-dom";
+// import Detailcomment from "../detail/DetailComment";
 
 function DetailPage() {
+  const { isLoading, error, posts } = useSelector((state) => state.detail);
+  const { post } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // const fetchPosts = async () => {
+  //   const { data } = await axios.get("https://test101.fly.dev/posts");
+  //   setPosts(data);
+  // };
+
+  useEffect(() => {
+    dispatch(__getList());
+    dispatch(__getPost(Number(id)));
+    console.log(id);
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div style={{ color: "#fff" }}>로딩 중....</div>;
+  }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
   return (
     <Inner>
       <LeftContainer>
         <Vedeo></Vedeo>
-        <VedeoTitle>제목을 달아주세요</VedeoTitle>
+        <VedeoTitle>{post.title}</VedeoTitle>
         <SideBar>
           <LeftItem>
             <Icon></Icon>
             <Channel>
-              <ChannelName href="/">ㄴㄴ</ChannelName>
+              <ChannelName href="/">{post.username}</ChannelName>
               <ChannelCount>구독자 1.51천명</ChannelCount>
             </Channel>
             <SubBtn>
@@ -27,7 +64,7 @@ function DetailPage() {
         </SideBar>
         <MainContent>
           <MainTitle>조회수: 7.8만회 2일 전</MainTitle>
-          <MainContents>지금 바로 등록해보세요</MainContents>
+          <MainContents>{post.content}</MainContents>
         </MainContent>
       </LeftContainer>
       <RightContainer>
@@ -36,6 +73,23 @@ function DetailPage() {
           <Category>관련 콘텐츠</Category>
           <Category category>실시간</Category>
         </SideCategory>
+
+        {post?.map((post) => {
+          return (
+            <StyledLink to={`/detail/${post.num}`} key={post.num}>
+              <SideItem>
+                <SideImg alt="SideImage" src={post.imageUrl}></SideImg>
+                <SideText>
+                  <SideTitle>{post.title}</SideTitle>
+                  <SideContent>
+                    <Chennel>{post.content}</Chennel>
+                    <Dates>조회수: 100 , 1년</Dates>
+                  </SideContent>
+                </SideText>
+              </SideItem>
+            </StyledLink>
+          );
+        })}
         <SideItem>
           <SideImg></SideImg>
           <SideText>
@@ -274,7 +328,7 @@ const SideItem = styled.div`
   margin-top: 20px;
 `;
 
-const SideImg = styled.div`
+const SideImg = styled.img`
   width: 160px;
   height: 100px;
   background-color: #fff;
@@ -307,8 +361,14 @@ const Chennel = styled.div`
   color: grey;
   background-color: transparent;
 `;
+
 const Dates = styled.div`
   font-size: 13px;
   color: grey;
   background-color: transparent;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
 `;

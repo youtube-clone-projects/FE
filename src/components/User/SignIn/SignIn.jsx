@@ -49,7 +49,7 @@ const Login = () => {
             ></IdInput>
             <SignPW htmlFor="password">PW : </SignPW>
             <PwInput
-              type="text"
+              type="password"
               id="password"
               value={password}
               onChange={setPassword}

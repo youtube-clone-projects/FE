@@ -15,7 +15,7 @@ function Header() {
         <HeadLeftIcon>
           <AiOutlineMenu className="categoryMenu" />
           <DarkLogoBox>
-            <DarkLogo alt="dark_logo" src="image/dark_logo.jpg" />
+            <DarkLogo alt="dark_logo" src="/image/dark_logo.jpg" />
             <LogoKr>KR</LogoKr>
           </DarkLogoBox>
         </HeadLeftIcon>
