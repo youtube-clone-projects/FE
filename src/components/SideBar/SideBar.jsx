@@ -240,7 +240,9 @@ const StDiv = styled.div`
         background: transparent; /*스크롤바 뒷 배경 색상*/
       }
       background-position: 0% 0%;
-      height: 657.6px;
+      height: 100%;
+      position: fixed;
+      overflow: scroll;
       width: 224px;
       padding: 12px;
       min-width: auto;
@@ -248,6 +250,7 @@ const StDiv = styled.div`
       display: block;
       overflow: hidden auto;
       outline: rgb(255, 0, 0) dashed 1px;
+      color: #fff;
     `}
 
   ${(props) =>
@@ -256,6 +259,7 @@ const StDiv = styled.div`
       border-bottom: 1px solid #303030;
       padding-bottom: 10px;
       margin-bottom: 10px;
+      color: #fff;
     `}
 
     ${(props) =>
@@ -279,6 +283,7 @@ const StDiv = styled.div`
       > span:last-child {
         font-size: 14px;
         background-color: transparent;
+        color: #fff;
       }
     `}
 `;

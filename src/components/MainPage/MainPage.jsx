@@ -40,8 +40,6 @@ function MainPage() {
 
   return (
     <StDiv All>
-      <SideBar />
-      {/* <SideBar /> */}
       <div className="contents">
         <StDiv ContentContainer>
           <StDiv ContentsBox>
@@ -49,6 +47,8 @@ function MainPage() {
               console.log(cardList);
               return (
                 <StDiv ContentCard key={cardList.num}>
+                  <StBtn CardBtn>수정</StBtn>
+                  <StBtn CardBtn>삭제</StBtn>
                   <StDiv ContentCardImg>
                     <StImg
                       thumnailImg
@@ -110,7 +110,7 @@ const StDiv = styled.div`
       max-width: 1344px;
       min-width: auto;
       display: flex;
-      margin: 0 16px;
+      margin: 50px 0 0 260px;
     `}
 
   ${(props) =>
@@ -193,5 +193,15 @@ const StImg = styled.img`
       border-radius: 50%;
       margin: 12px 12px 0 0;
     `}
+`;
+const StBtn = styled.button`
+  ${(props) =>
+    props.CardBtn &&
+    css`
+      width: 50px;
+      height: 25px;
+      background-color: skyblue;
+      display: flex;
+    `};
 `;
 export default MainPage;

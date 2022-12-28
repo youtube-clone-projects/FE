@@ -4,6 +4,7 @@ import { apis } from "../../lib/axios";
 
 const initialState = {
   posts: [],
+  postList: [],
   isLoading: false,
   isSuccess: false,
   error: null,
@@ -24,6 +25,19 @@ export const __getPost = createAsyncThunk(
     } catch (err) {
       console.log(err);
       return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const __postPost = createAsyncThunk(
+  "postPost",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.apis.postPost(payload);
+
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      console.log(error);
     }
   }
 );
@@ -225,6 +239,18 @@ export const postSlice = createSlice({
       state.error = action.payload;
     },
 
+    [__postPost.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__postPost.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.posts.push(action.payload);
+    },
+    [__postPost.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
     //좋아요
     //   [__likeToggle.pending]: (state) => {
     //     state.isLoading = true;
@@ -242,4 +268,5 @@ export const postSlice = createSlice({
   },
 });
 
+export const {} = postSlice.actions;
 export default postSlice.reducer;

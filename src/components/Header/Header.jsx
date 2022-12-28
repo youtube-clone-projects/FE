@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled, { css } from "styled-components";
 
@@ -11,7 +10,6 @@ import { BsBell } from "react-icons/bs";
 
 function Header() {
   return (
-
     <Navbar>
       <HeadLeft>
         <HeadLeftIcon>
@@ -52,8 +50,8 @@ function Header() {
 
 export default Header;
 
-
 const Navbar = styled.nav`
+  max-width: 1870px;
   width: 100%;
   height: 56px;
   padding: 0 20px;
@@ -185,4 +183,3 @@ const ProfileImg = styled.div`
   background-color: blueviolet;
   cursor: pointer;
 `;
-

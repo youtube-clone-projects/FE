@@ -3,13 +3,18 @@ import axios from "axios";
 export const instance = axios.create({
   baseURL: "https://www.sparta-sjl.shop/api",
   header: {
+    //    "content-type": "application/json;charset=UTF-8",
+    // accept: "application/json",
     "Access-Control-Allow-Origin": "*",
   },
 });
 
+// baseURL
 export const baseURL = axios.create({
   baseURL: "https://www.sparta-sjl.shop/api",
   headers: {
+    "content-type": "application/json;charset=UTF-8",
+    accept: "application/json",
     "Access-Control-Allow-Origin": "*",
   },
 });
@@ -27,15 +32,16 @@ export const apis = {
   //(객체형식->)언제든 편하게 갖다쓰려고 나눠서 씀
 
   //로그인 관련 apis
-  postLogin: (post) => instance.post("/user/login", post), //post가 앞 괄호에 들어가면 뒷괄호에도 들어감(넘겨주는 값에 그대로 들어감)
-  // postLogout: () => instance.get("/user/logout"),
-  postSignup: (post) => instance.post("/user/signup", post),
+  postLogin: (login) => instance.post("/api/user/login", login),
+  postSignup: (signup) => instance.post("/api/user/signup", signup),
 
   //게시글 관련 apis //instance
-  createPost: (post) =>
-    baseURL.post("/post", post, {
+  createPost: (post) => {
+    console.log("payload::", post);
+    baseURL.post("/posts", post, {
       headers: { "Content-Type": "multipart/form-data" },
-    }),
+    });
+  },
   //추가
   getPost: () => baseURL.get("/posts"), //조회,
   editPosting: (num, post) => baseURL.put(`/post/${num}`, post),
