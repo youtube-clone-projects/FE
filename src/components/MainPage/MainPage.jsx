@@ -7,6 +7,7 @@ import {
   __deletePost,
   __getPost,
   __editPost,
+  __getList,
 } from "../../redux/modules/postSlice";
 import { useState } from "react";
 
@@ -50,7 +51,7 @@ function MainPage() {
   const delete_post = (num) => {
     if (window.confirm("post를 삭제하시겠습니까?")) {
       console.log(num);
-      dispatch(__deletePost(num));
+      dispatch(__deletePost(Number(num)));
     }
   };
 

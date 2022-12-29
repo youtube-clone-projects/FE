@@ -34,9 +34,12 @@ export const apis = {
   postSignup: (signup) => instance.post("/signup", signup),
 
   //게시글 관련 apis //instance
+
+
   createPost: (post) => {
     console.log("payload::", post);
     baseURL.post("/posts", post);
+
   },
   getPost: () => baseURL.get("/posts"),
   getIdPost: (num) => {

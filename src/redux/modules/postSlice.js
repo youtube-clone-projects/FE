@@ -14,7 +14,9 @@ export const __getList = createAsyncThunk(
   "getList",
   async (payload, thunkAPI) => {
     try {
+
       const { data } = await baseURL.get("/posts");
+
       console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -37,8 +39,10 @@ export const __getPost = createAsyncThunk(
       //   console.log(error);
       //   return thunkAPI.rejectWithValue(error);
 
+
       // const data = await apis.getPost();
       console.log("로딩데이터: ", data);
+
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       console.log(err);
@@ -57,11 +61,13 @@ export const __postPost = createAsyncThunk(
       }
       console.log("payload :", payload);
       // const data = await apis.createPost(payload);
+
       const data = await baseURL.post("/posts", payload, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("POST 추가 데이터", data);
+
+      console.log("POST 추가 데이터", { data });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -90,6 +96,7 @@ export const __deletePost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
+
       const deletedata = await baseURL.delete(
         `https://www.sparta-sjl.shop/api/posts/${payload}`,
         // payload,
@@ -98,6 +105,7 @@ export const __deletePost = createAsyncThunk(
           headers: {
             "Access-Control-Allow-Origin": "*",
             Authorization: localStorage.getItem("id"),
+
           },
         }
       );
@@ -231,7 +239,11 @@ export const postSlice = createSlice({
       state.posts = state.posts.filter((post) => post.num !== action.payload);
       // console.log(state.posts);
       // state.posts.push(action.payload);
+
+      // // state.posts = [...state.posts, action.payload];
+
       // state.posts = [...state.posts, action.payload];
+
 
       // const newPost = state.posts.filter((t) => t.num !== action.payload);
       // state.posts = [...newPost];

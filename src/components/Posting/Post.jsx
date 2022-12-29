@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { __postPost } from "../../redux/modules/postSlice";
+import { __getList } from "../../redux/modules/postingSlice";
 import { apis } from "../../lib/axios";
 
 const Post = () => {
@@ -114,7 +115,7 @@ const Post = () => {
           </LeftContainer>
           <RightContainer>
             <Wrap>
-              <PreViewText>미리보기 이미지</PreViewText>
+              <PreViewText>동영상 업로드</PreViewText>
               <PreViewContet>
                 동영상의 내용을 알려주는 사진을 선택하거나 업로드하세요.
                 시청자의 시선을 사로잡을만한 이미지를 사용해 보세요
@@ -127,7 +128,7 @@ const Post = () => {
                   encType="multipart/form-data"
                   onChange={onChangeVideo}
                 ></PreViewInput>
-                <PreViewInput></PreViewInput>
+                <PreViewImg></PreViewImg>
               </PreView>
               <Wrap>
                 <CategoryText>카테고리</CategoryText>
@@ -149,13 +150,14 @@ const Post = () => {
                   <option value="스포츠">스포츠</option>
                   <option value="게임">게임</option>
                   <option value="음식">음식</option>
+                  <option value="동물">동물</option>
                 </SelectBox>
               </Wrap>
             </Wrap>
           </RightContainer>
         </Container>
         <UploadWrap>
-          <UploadText htmlFor="video-upload">업로드</UploadText>
+          <UploadText htmlFor="video-upload">이미지 업로드</UploadText>
 
           <UploadInput
             type="file"
@@ -249,6 +251,16 @@ const PreViewInput = styled.input`
   border-radius: 5px;
   margin-left: 5px;
   /* border: 1px solid gray; */
+`;
+
+const PreViewImg = styled.img`
+  width: 215px;
+  height: 100px;
+  color: #fff;
+  margin-bottom: 15px;
+  background-color: #282828;
+  border-radius: 5px;
+  margin-left: 5px;
 `;
 const CategoryText = styled.span`
   font-size: 24px;

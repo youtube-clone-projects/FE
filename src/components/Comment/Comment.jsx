@@ -9,7 +9,7 @@ import {
   __changeComment,
   __getComment,
 } from "../../redux/modules/commentSlice";
-import EditComment from "./EditComment";
+// import EditComment from "./EditComment";
 
 const Comments = ({ isLogin }) => {
   const { id } = useParams();
@@ -63,7 +63,7 @@ const Comments = ({ isLogin }) => {
 const CommentBox = styled.div`
   max-width: 1300px;
   height: auto;
-  background-color: transparent;
+  background-color: red;
   padding: 5px 10px 10px 10px;
   margin: 20px 0 0 20px;
   border-radius: 10px;
