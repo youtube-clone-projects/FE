@@ -24,6 +24,7 @@ const Login = () => {
         }
         console.log(res.headers.authorization);
         localStorage.setItem("id", res.headers.authorization);
+        localStorage.setItem("username", res.data.username);
         navigate("/");
       })
       .catch((error) => alert("ID 또는 비밀번호가 틀립니다"));

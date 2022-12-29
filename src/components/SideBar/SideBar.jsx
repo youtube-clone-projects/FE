@@ -283,8 +283,7 @@ const StDiv = styled.div`
       height: 40px;
       padding: 0 12px;
       cursor: pointer;
-
-      color: #fff
+      color: #fff;
       &:hover {
         background-color: #2e2e2e;
         border-radius: 10px;
