@@ -160,7 +160,7 @@ const StDiv = styled.div`
       gap: auto;
       width: 312px;
       height: 300.49px;
-      background-color: green;
+      background-color: transparent;
       position: relative;
       top: 0px;
       bottom: 0px;

@@ -14,7 +14,6 @@ export const __getList = createAsyncThunk(
   "getList",
   async (payload, thunkAPI) => {
     try {
-
       const { data } = await baseURL.get("/posts");
 
       console.log(data);
@@ -39,10 +38,9 @@ export const __getPost = createAsyncThunk(
       //   console.log(error);
       //   return thunkAPI.rejectWithValue(error);
 
-
       // const data = await apis.getPost();
       console.log("로딩데이터: ", data);
-
+      thunkAPI.dispatch(__getPost());
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       console.log(err);
@@ -65,7 +63,6 @@ export const __postPost = createAsyncThunk(
       const data = await baseURL.post("/posts", payload, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
 
       console.log("POST 추가 데이터", { data });
       return thunkAPI.fulfillWithValue(data.data);
@@ -96,7 +93,6 @@ export const __deletePost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-
       const deletedata = await baseURL.delete(
         `https://www.sparta-sjl.shop/api/posts/${payload}`,
         // payload,
@@ -105,7 +101,6 @@ export const __deletePost = createAsyncThunk(
           headers: {
             "Access-Control-Allow-Origin": "*",
             Authorization: localStorage.getItem("id"),
-
           },
         }
       );
@@ -243,7 +238,6 @@ export const postSlice = createSlice({
       // // state.posts = [...state.posts, action.payload];
 
       // state.posts = [...state.posts, action.payload];
-
 
       // const newPost = state.posts.filter((t) => t.num !== action.payload);
       // state.posts = [...newPost];

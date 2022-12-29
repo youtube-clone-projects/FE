@@ -36,10 +36,12 @@ const SideBar = () => {
                 Upload
               </span>
             </StDiv>
-            <StDiv CategoryGuide>
-              <span className="material-symbols-outlined">subscriptions</span>
-              <span>구독</span>
-            </StDiv>
+            <StA href="/signup">
+              <StDiv CategoryGuide>
+                <span className="material-symbols-outlined">subscriptions</span>
+                <span>회원가입</span>
+              </StDiv>
+            </StA>
           </StDiv>
           <StDiv CategoryLine>
             <StDiv CategoryGuide>
@@ -280,9 +282,9 @@ const StDiv = styled.div`
       align-items: center;
       height: 40px;
       padding: 0 12px;
+      cursor: pointer;
 
       color: #fff
-      cursor: pointer;
       &:hover {
         background-color: #2e2e2e;
         border-radius: 10px;
@@ -297,6 +299,11 @@ const StDiv = styled.div`
         color: #fff;
       }
     `}
+`;
+
+const StA = styled.a`
+  text-decoration: none;
+  /* color: #000; */
 `;
 
 export default SideBar;
