@@ -46,7 +46,7 @@ const Post = () => {
   };
 
   // console.log(imageUrl);
-  const [imagefile, setImageFile] = useState("");
+  const [imageFile, setImageFile] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
@@ -59,7 +59,7 @@ const Post = () => {
     console.log(video);
 
     const formdata = new FormData();
-    formdata.append("file", imagefile);
+    formdata.append("image", imageFile);
     formdata.append("title", title.title);
     formdata.append("content", content.content);
     formdata.append("category", category.category);

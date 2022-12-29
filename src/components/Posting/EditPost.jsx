@@ -1,119 +1,210 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { __postPost, __editPost } from "../../redux/modules/postSlice";
+import { __postPost } from "../../redux/modules/postSlice";
+import { apis } from "../../lib/axios";
+import { __editPost } from "../../redux/modules/postSlice";
 
-const EditPost = () => {
-  const dispatch = useDispatch();
+const EditPost = (props) => {
   const navigate = useNavigate();
-  const [post, setPost] = useState({
-    title: "",
-    content: "",
-    videoFile: "",
-    imageFile: "",
-    category: "",
-  });
+  const propsPost = props.post;
+  const params = useParams();
 
-  const onClickHandler = () => {
-    if (post.title === "" || post.title.length >= 30) {
-      alert("30자이내의 제목을 입력해주세요");
-    } else if (post.category === "") {
-      alert("카테고리를 선태해주세요!");
-    } else if (post.content === "") {
-      alert("내용을 입력해주세요!");
-    } else if (post.videoFile === "" || post.imageFile === "") {
-      alert("파일을 삽입 해 주세요");
-    } else {
-      dispatch(__postPost(post));
-      console.log(post);
-      navigate("/");
+  // const [imageUrl, setImageUrl] = useState(null);
+  const imgRef = useRef();
+  // const [post, setPost] = useState();
+  const dispatch = useDispatch();
+
+  const onChangeImage = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    const reader = new FileReader();
+    // const file = imgRef.current.files[0];
+    console.log(file);
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      // const image = reader.result;
+      setPost({
+        ...post,
+        imageUrl: reader.result,
+      });
+    };
+  };
+
+  const [editPost, setEditPost] = useState({});
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    apis.getIdPost(params.id).then((res) => {
+      setPosts(res.data);
+      console.log("useEffect :", res);
+    });
+  }, [params.id]);
+
+  const onEditHandler = (id, post) => {
+    // console.log("수정버튼 누름");
+    console.log(editPost);
+
+    const formdata = new FormData();
+
+    const newEditPost = {
+      id: params.id,
+      title: title.title,
+      content: content.content,
+      category: editPost.category,
+      image: imageFile,
+      video: video,
+    };
+    console.log(newEditPost);
+
+    dispatch(__editPost(newEditPost));
+    // navigate(`/detail/${params.id}`);
+
+    for (const pair of formdata) {
+      console.log(pair[0] + ", " + pair[1]);
     }
   };
 
-  const edit_post = (num, post) => {
-    // console.log("수정버튼 누름");
-    // console.log(editPost);
-    const newEditPost = {
-      num: num,
-      // videoFile: editPost.videoFile,
-      // imageFile: editPost.imageFile,
-      // title: editPost.title,
-      // username: editPost.username,
-    };
-    console.log(newEditPost);
-    dispatch(__editPost(newEditPost));
-    // navigate(`/detail/${params.id}`);
+  const edit_start = () => {
+    //왜 e가 들어가는가? event?
+
+    if (window.confirm("게시글 수정 완료!")) {
+      navigate("/");
+    } else {
+      console.log();
+    }
+    // 여기부분에서 메인 이동 안했을 때
+    // 상세페이지에서 업데이트 된 부분 보여줌 좋겠는데! 함 생각해보기
   };
 
+  const onChangeVideo = (event) => {
+    const file = event.target.files[0];
+    setVideoFile(file);
+    const reader = new FileReader();
+    // const file = imgRef.current.files[0];
+    console.log(file);
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      // const image = reader.result;
+      setPost({
+        ...post,
+        videoUrl: reader.result,
+      });
+    };
+  };
+
+  // console.log(imageUrl);
+  const [imageFile, setImageFile] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const [post, setPost] = useState([]);
+  const [video, setVideoFile] = useState("");
+
+  console.log(title);
+  console.log(content);
   return (
     <>
       <TextUpload>동영상 업로드</TextUpload>
-      <Container>
-        <LeftContainer>
-          <Title
-            type="text"
-            placeholder="제목을 입력해주세요"
-            onChange={(event) => {
-              const { value } = event.target;
-              setPost({ ...post, title: value });
-            }}
-          ></Title>
-          <Content
-            type="text"
-            placeholder="내용을 입력해주세요"
-            onChange={(event) => {
-              const { value } = event.target;
-              setPost({ ...post, content: value });
-            }}
-          ></Content>
-        </LeftContainer>
-        <RightContainer>
-          <Wrap>
-            <PreViewText>미리보기 이미지</PreViewText>
-            <PreViewContet>
-              동영상의 내용을 알려주는 사진을 선택하거나 업로드하세요. 시청자의
-              시선을 사로잡을만한 이미지를 사용해 보세요
-            </PreViewContet>
-            <PreViewContet>자세히 알아보기</PreViewContet>
-            <PreView>
-              <PreViewInput>미리보기 이미지 업로드</PreViewInput>
-              <PreViewInput></PreViewInput>
-            </PreView>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("수정버튼 :");
+          onEditHandler(post);
+          navigate("/");
+        }}
+      >
+        <Container>
+          <LeftContainer>
+            <Title
+              type="text"
+              name="title"
+              id="title"
+              required
+              placeholder="제목을 입력해주세요"
+              onChange={(event) => {
+                const { value } = event.target;
+                setTitle({ ...post, title: value });
+              }}
+            ></Title>
+            <Content
+              type="text"
+              placeholder="내용을 입력해주세요"
+              required
+              maxLength={200}
+              minLength={10}
+              name="content"
+              id="content"
+              onChange={(event) => {
+                const { value } = event.target;
+                setContent({ ...post, content: value });
+              }}
+            ></Content>
+          </LeftContainer>
+          <RightContainer>
             <Wrap>
-              <CategoryText>카테고리</CategoryText>
-              <CategoryContet>
-                카테고리를 추가해 주세요 카테고리 별로 동영상을 찾기 쉬워집니다.
-              </CategoryContet>
-              <SelectBox
-                onChange={(event) => {
-                  const { value } = event.target;
-                  setPost({ ...post, cateMbti: value });
-                }}
-              >
-                <option value="" selected>
-                  카테고리 선택
-                </option>
-                <option value="스포츠">스포츠</option>
-                <option value="게임">게임</option>
-                <option value="음식">음식</option>
-              </SelectBox>
+              <PreViewText>미리보기 이미지</PreViewText>
+              <PreViewContet>
+                동영상의 내용을 알려주는 사진을 선택하거나 업로드하세요.
+                시청자의 시선을 사로잡을만한 이미지를 사용해 보세요
+              </PreViewContet>
+              <PreViewContet>자세히 알아보기</PreViewContet>
+              <PreView>
+                <PreViewInput
+                  type="file"
+                  // value={imgUrl}
+                  encType="multipart/form-data"
+                  onChange={onChangeVideo}
+                ></PreViewInput>
+                <PreViewInput></PreViewInput>
+              </PreView>
+              <Wrap>
+                <CategoryText>카테고리</CategoryText>
+                <CategoryContet>
+                  카테고리를 추가해 주세요 카테고리 별로 동영상을 찾기
+                  쉬워집니다.
+                </CategoryContet>
+                <SelectBox
+                  name="category"
+                  id="category"
+                  required
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    setEditPost({ ...post, category: value });
+                  }}
+                >
+                  {" "}
+                  <option selected>카테고리 선택</option>
+                  <option value="스포츠">스포츠</option>
+                  <option value="게임">게임</option>
+                  <option value="음식">음식</option>
+                </SelectBox>
+              </Wrap>
             </Wrap>
-          </Wrap>
-        </RightContainer>
-      </Container>
-      <UploadWrap>
-        <UploadText htmlFor="video">업로드</UploadText>
+          </RightContainer>
+        </Container>
+        <UploadWrap>
+          <UploadText htmlFor="video-upload">업로드</UploadText>
 
-        <UploadInput
-          type="file"
-          id="video"
-          name="video"
-          accept="image/png, image/jpeg, image/jpg, video/mp4"
-        ></UploadInput>
-      </UploadWrap>
-      <SelectBtn onClick={onClickHandler}>게시글 수정</SelectBtn>
+          <UploadInput
+            type="file"
+            ref={imgRef}
+            // value={imgUrl}
+            encType="multipart/form-data"
+            onChange={onChangeImage}
+          />
+        </UploadWrap>
+        <SelectBtn
+          add
+          // onClick={() => {
+          //   edit_start(propsPost);
+          // }}
+          type="submit"
+        >
+          게시글 수정 완료
+        </SelectBtn>
+      </form>
     </>
   );
 };
@@ -124,6 +215,7 @@ const TextUpload = styled.div`
   font-size: 36px;
   color: #fff;
   margin-bottom: 30px;
+  margin-top: 94px;
 `;
 
 const Container = styled.div`
@@ -186,7 +278,7 @@ const PreView = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const PreViewInput = styled.button`
+const PreViewInput = styled.input`
   width: 215px;
   height: 100px;
   color: #fff;
