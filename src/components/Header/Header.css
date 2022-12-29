@@ -1,90 +1,8 @@
-.header {
-  width: 1488px;
-  height: 56px;
-  padding: 0 20px;
-  background-color: #000000;
-  display: flex;
-  align-items: center;
-}
-
-.headLeft {
-  width: 169px;
-  height: 56px;
-}
-.headLeftIcon {
-  display: flex;
-  align-items: center;
-}
 .categoryMenu {
   color: white;
   font-size: 22px;
   width: 30px;
   cursor: pointer;
-}
-.darkLogoBox {
-  width: 140px;
-  height: 56px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.darkLogo {
-  width: 95px;
-  height: 23px;
-  cursor: pointer;
-}
-
-.logoKr {
-  color: #aaaaaa;
-  font-size: 11px;
-  display: flex;
-  margin-top: -20px;
-}
-
-.headMiddle {
-  width: 644px;
-  height: 40px;
-  /* background-color: pink; */
-  margin: auto;
-  display: flex;
-}
-
-.headMiddleSearch {
-  width: 540px;
-  height: 36px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  /* background-color: blueviolet; */
-  display: flex;
-  align-items: center;
-  border: 2px solid #303030;
-}
-
-.headMiddleSearchInput {
-  width: 464px;
-  height: 20px;
-  display: flex;
-  margin: auto;
-  background-color: #000000;
-  border: 0 solid black;
-  color: white;
-  font-size: 16px;
-}
-
-.headMiddleSearchInput:focus {
-  outline: none;
-}
-
-.headMiddleBtn {
-  width: 64px;
-  height: 40px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  background-color: #303030;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .headMiddleIcon {
@@ -94,63 +12,15 @@
   background-color: transparent;
 }
 
-.headMiddleIconMic {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .headMiddleIcon2 {
   font-size: 24px;
   color: white;
   cursor: pointer;
 }
 
-.headRight {
-  height: 40px;
-  min-width: 225px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.headRigntPersonal {
-  width: 156px;
-  height: 40px;
-  /* background-color: aqua; */
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.headRigntPersonalBox {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.headRigntPersonalBox2 {
-  width: 60px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .headRigntIcon3 {
   width: 20px;
   height: 20px;
   color: white;
-  cursor: pointer;
-}
-
-.profileImg {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: blueviolet;
   cursor: pointer;
 }
