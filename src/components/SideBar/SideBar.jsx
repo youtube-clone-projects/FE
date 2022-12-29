@@ -5,8 +5,11 @@ import { FaYoutubeSquare } from "react-icons/fa";
 import { VscGithub, VscGithubInverted } from "react-icons/vsc";
 import styled, { css } from "styled-components";
 import "./SideBar.css";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
+  const navigate = useNavigate();
+
   const hje = "https://github.com/wjddms0501";
   const minjae = "https://github.com/MJ-Dev92";
   const sangjung = "https://github.com/WooLeeHappy";
@@ -25,7 +28,13 @@ const SideBar = () => {
             </StDiv>
             <StDiv CategoryGuide>
               <span className="material-symbols-outlined">play_circle</span>
-              <span>Shorts</span>
+              <span
+                onClick={() => {
+                  navigate("posting");
+                }}
+              >
+                Upload
+              </span>
             </StDiv>
             <StDiv CategoryGuide>
               <span className="material-symbols-outlined">subscriptions</span>
@@ -55,7 +64,7 @@ const SideBar = () => {
             </StDiv>
           </StDiv>
           <StDiv CategoryLine>
-            <StDiv CategoryGuide>
+            <StDiv CategoryGuideTitle>
               <p>탐색</p>
             </StDiv>
             <StDiv CategoryGuide>
@@ -94,7 +103,7 @@ const SideBar = () => {
             </StDiv>
           </StDiv>
           <StDiv CategoryLine>
-            <StDiv ategoryGuide>
+            <StDiv CategoryGuideTitle>
               <p>YouTube 더보기</p>
             </StDiv>
             <StDiv CategoryGuide>
@@ -137,9 +146,9 @@ const SideBar = () => {
             </StDiv>
           </StDiv>
           <StDiv categoryLine>
-            <StDiv CategoryGuide>
+            <StDiv CategoryGuideTitle>
               <span className="material-symbols-outlined">diversity_3</span>
-              <span>C반 5조</span>
+              <span> C반 5조</span>
             </StDiv>
             <StDiv
               CategoryGuide
@@ -240,17 +249,18 @@ const StDiv = styled.div`
         background: transparent; /*스크롤바 뒷 배경 색상*/
       }
       background-position: 0% 0%;
-      height: 100%;
+      height: 100vh;
       position: fixed;
       overflow: scroll;
+      /* overflow: hidden auto; */
       width: 224px;
       padding: 12px;
       min-width: auto;
       min-height: auto;
       display: block;
       margin-top: 58px;
-      overflow: hidden auto;
-      outline: rgb(255, 0, 0) dashed 1px;
+      margin-bottom: 800px;
+      /* outline: rgb(255, 0, 0) dashed 1px; */
       color: #fff;
     `}
 
