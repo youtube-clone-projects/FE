@@ -2,7 +2,7 @@ import SideBar from "../SideBar/SideBar";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   __deletePost,
   __getPost,
@@ -32,6 +32,7 @@ import { useState } from "react";
 // ];
 
 function MainPage() {
+  const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const playPosts = useSelector((state) => state.posts.posts);
@@ -63,13 +64,10 @@ function MainPage() {
             {playPosts.map((cardList) => {
               console.log(cardList);
               return (
-                <StDiv
-                  ContentCard
-                  key={cardList.num}
-                  // onClick={()=>navigate("detail/:num")}
-                >
+                <StDiv ContentCard key={cardList.num}>
                   <StDiv ContentCardImg>
                     <StImg
+                      onClick={() => navigate(`detail/${cardList.num}`)}
                       thumnailImg
                       src={cardList.imageFile}
                       alt={cardList.videoFile}
@@ -81,7 +79,7 @@ function MainPage() {
                       <StSpan ContentTitle>{cardList.title}</StSpan>
                       <StDiv ContentContents>
                         <div>
-                          <a href="채널 이동될 주소">{cardList.username}</a>
+                          {cardList.username}
                           {/* a 안먹힐 수도 있어서 링크나 네비게이트로 바꾸기 */}
                         </div>
                         <span className="viewDate">
@@ -89,30 +87,34 @@ function MainPage() {
                           {/* 문자열이랑 {자바스크립트 내용}같이 쓰려면 template literals 쓰기! */}
                         </span>
                         <br />
-                        <span className="viewDate">
+                        {/* <span className="viewDate">
                           {`${cardList.createdAt[3]}:${cardList.createdAt[4]}:${cardList.createdAt[5]}`}
-                        </span>
+                        </span> */}
                       </StDiv>
                     </StDiv>
                   </StDiv>
                   <StDiv BtnBox>
-                    <StBtn
-                      CardBtn
-                      onClick={() => {
-                        navigate("detailedit/:num");
-                      }}
-                    >
-                      수정
-                    </StBtn>
-                    <StBtn
-                      CardBtn
-                      onClick={() => {
-                        delete_post(cardList.num);
-                        console.log(cardList.num);
-                      }}
-                    >
-                      삭제
-                    </StBtn>
+                    {localStorage.getItem("id") ? (
+                      <StBtn
+                        CardBtn
+                        onClick={() => {
+                          navigate(`detailedit/${cardList.num}`);
+                        }}
+                      >
+                        수정
+                      </StBtn>
+                    ) : null}
+                    {localStorage.getItem("id") ? (
+                      <StBtn
+                        CardBtn
+                        onClick={() => {
+                          delete_post(cardList.num);
+                          console.log(cardList.num);
+                        }}
+                      >
+                        삭제
+                      </StBtn>
+                    ) : null}
                   </StDiv>
                 </StDiv>
               );
@@ -137,7 +139,7 @@ const StDiv = styled.div`
     props.ContentContainer &&
     css`
       display: flex;
-      outline: rgb(255, 0, 0) dashed 1px;
+      /* outline: rgb(255, 0, 0) dashed 1px; */
     `}
 
   ${(props) =>
@@ -176,7 +178,7 @@ const StDiv = styled.div`
     css`
       width: 295.99px;
       height: 166.49px;
-      background-color: skyblue;
+      /* background-color: skyblue; */
       border-radius: 15px;
     `}
 
@@ -186,7 +188,7 @@ const StDiv = styled.div`
       display: flex;
       width: 295.99px;
       height: 94px;
-      background-color: pink;
+      background-color: transparent;
     `}
 
   
@@ -196,23 +198,35 @@ const StDiv = styled.div`
     css`
       margin-top: 10px;
       padding: 0 24px 0 0;
-      background-color: yellow;
+      background-color: transparent;
     `}
 
   ${(props) =>
     props.ContentContents &&
     css`
-      a {
-        color: orange;
+      color: #878787;
+      font-size: 13px;
+    `} 
+  ${(props) =>
+    props.ContentContents &&
+    css`
+      div {
+        margin-top: 5px;
       }
-      font-size: 12px;
     `} 
 
     ${(props) =>
     props.CardBtn &&
     css`
       display: flex;
-      flex-direction: <flex-end></flex-end>;
+      flex-direction: flex-end;
+    `}
+
+    ${(props) =>
+    props.BtnBox &&
+    css`
+      margin-right: -170px;
+      background-color: transparent;
     `}
 `;
 
@@ -220,7 +234,8 @@ const StSpan = styled.span`
   ${(props) =>
     props.ContentTitle &&
     css`
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: bold;
     `}
 `;
 const StImg = styled.img`
@@ -245,10 +260,17 @@ const StBtn = styled.button`
   ${(props) =>
     props.CardBtn &&
     css`
-      width: 50px;
-      height: 25px;
-      background-color: skyblue;
+      width: 55px;
+      height: 30px;
+      background-color: #4d4d4d;
+      color: #999999;
       margin-right: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #2e2e2e;
+      }
     `};
 `;
 export default MainPage;

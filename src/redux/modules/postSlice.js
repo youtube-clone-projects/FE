@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { apis } from "../../lib/axios";
+import { apis, baseURL } from "../../lib/axios";
 
 const initialState = {
   posts: [],
@@ -14,12 +14,9 @@ export const __getList = createAsyncThunk(
   "getList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`http://43.201.58.153/api/posts`, {
-        headers: {
-          Authorization:
-            "Bearer  eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QzNDU2IiwiYXV0aCI6IiIsImV4cCI6MTY3MjI1OTY5NiwiaWF0IjoxNjcyMjU2MDk2fQ.P9Z-kaVA-44-UbUPqxnPrO4BeFOqNyOxRbciQOfVS68",
-        },
-      });
+
+      const { data } = await baseURL.get("/posts");
+
       console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -35,32 +32,16 @@ export const __getPost = createAsyncThunk(
   "getPost",
   async (payload, thunkAPI) => {
     try {
-      // const { data } = await axios.get(
-      //   `https://www.sparta-sjl.shop/api/posts`,
-      //   {
-      //     headers: {
-      //       Authorization:
-      //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
-      //     },
-      //   }
-      // );
+      const { data } = await baseURL.get("/posts");
       // console.log(data);
       //   return thunkAPI.fulfillWithValue(data);
       // } catch (error) {
       //   console.log(error);
       //   return thunkAPI.rejectWithValue(error);
 
-      const { data } = await axios.get(
-        `https://www.sparta-sjl.shop/api/posts`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
-          },
-        }
-      );
+
+      // const data = await apis.getPost();
       console.log("로딩데이터: ", data);
-      console.log("데이터찾기: ", data.data);
 
       return thunkAPI.fulfillWithValue(data);
     } catch (err) {
@@ -80,16 +61,11 @@ export const __postPost = createAsyncThunk(
       }
       console.log("payload :", payload);
       // const data = await apis.createPost(payload);
-      const data = await axios.post(
-        `https://www.sparta-sjl.shop/api/posts`,
-        payload,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
-          },
-        }
-      );
+
+      const data = await baseURL.post("/posts", payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
 
       console.log("POST 추가 데이터", { data });
       return thunkAPI.fulfillWithValue(data.data);
@@ -100,19 +76,19 @@ export const __postPost = createAsyncThunk(
   }
 );
 
-export const __getMyPage = createAsyncThunk(
-  "getMyPage",
-  async (payload, thunkAPI) => {
-    try {
-      const data = await apis.getMyPage();
-      console.log("로딩데이터: ", data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (err) {
-      console.log(err);
-      return thunkAPI.rejectWithValue(err);
-    }
-  }
-);
+// export const __getMyPage = createAsyncThunk(
+//   "getMyPage",
+//   async (payload, thunkAPI) => {
+//     try {
+//       const data = await apis.getMyPage();
+//       console.log("로딩데이터: ", data.data);
+//       return thunkAPI.fulfillWithValue(data.data);
+//     } catch (err) {
+//       console.log(err);
+//       return thunkAPI.rejectWithValue(err);
+//     }
+//   }
+// );
 
 //게시글 삭제
 export const __deletePost = createAsyncThunk(
@@ -120,13 +96,16 @@ export const __deletePost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const deletedata = await axios.delete(
+
+      const deletedata = await baseURL.delete(
         `https://www.sparta-sjl.shop/api/posts/${payload}`,
         // payload,
+
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: localStorage.getItem("id"),
+
           },
         }
       );
@@ -149,21 +128,15 @@ export const __editPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("payload :", payload);
     const form = new FormData();
-    form.append("file", payload.file);
-    form.append("title", payload.title); //form데이터가 객체라 form만 보내면됨
-    form.append("content", payload.content);
 
     console.log(form);
+    console.log("thunk");
 
     try {
-      const data = await apis.editPost(form, {
-        //
-        // const data = await axios.post("http://3.34.98.133/api/post", form, {
-        //이거 오리지널(이미지를 여러개 받기 불편)
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("num"),
-        },
+      const data = await apis.editPost(payload.id, {
+        title: payload.title,
+        content: payload.content,
+        category: payload.category,
       });
 
       console.log("POST 추가 데이터", data);
@@ -171,7 +144,7 @@ export const __editPost = createAsyncThunk(
     } catch (err) {
       console.log(err);
 
-      return thunkAPI.rejectWithValue(err);
+      return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
@@ -266,7 +239,11 @@ export const postSlice = createSlice({
       state.posts = state.posts.filter((post) => post.num !== action.payload);
       // console.log(state.posts);
       // state.posts.push(action.payload);
+
       // // state.posts = [...state.posts, action.payload];
+
+      // state.posts = [...state.posts, action.payload];
+
 
       // const newPost = state.posts.filter((t) => t.num !== action.payload);
       // state.posts = [...newPost];

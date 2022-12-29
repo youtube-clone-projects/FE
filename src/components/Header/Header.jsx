@@ -7,17 +7,27 @@ import { IoSearchOutline } from "react-icons/io5";
 import { IoMdMic } from "react-icons/io";
 import { RiLiveLine } from "react-icons/ri";
 import { BsBell } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
   return (
     <Navbar>
       <HeadLeft>
         <HeadLeftIcon>
           <AiOutlineMenu className="categoryMenu" />
           <DarkLogoBox>
-            <a href="/">
-              <DarkLogo alt="dark_logo" src="/image/dark_logo.jpg" />
-            </a>
+
+
+            <DarkLogo
+              alt="dark_logo"
+              src="/image/dark_logo.jpg"
+              onClick={() => {
+                navigate("/");
+              }}
+            />
+
             <LogoKr>KR</LogoKr>
           </DarkLogoBox>
         </HeadLeftIcon>
