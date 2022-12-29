@@ -36,9 +36,9 @@ export const apis = {
   //(객체형식->)언제든 편하게 갖다쓰려고 나눠서 씀
 
   //게시글 관련 apis //instance
-  createPost: (post) => {
-    console.log("payload::", post);
-    baseURL.post("/posts", post, {
+  createPost: (posts) => {
+    console.log("payload::", posts);
+    baseURL.post("/posts", posts, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },

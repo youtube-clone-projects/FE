@@ -14,7 +14,12 @@ export const __getList = createAsyncThunk(
   "getList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`https://www.sparta-sjl.shop/api/posts`);
+      const { data } = await axios.get(`http://43.201.58.153/api/posts`, {
+        headers: {
+          Authorization:
+            "Bearer  eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QzNDU2IiwiYXV0aCI6IiIsImV4cCI6MTY3MjI1OTY5NiwiaWF0IjoxNjcyMjU2MDk2fQ.P9Z-kaVA-44-UbUPqxnPrO4BeFOqNyOxRbciQOfVS68",
+        },
+      });
       console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -45,11 +50,19 @@ export const __getPost = createAsyncThunk(
       //   console.log(error);
       //   return thunkAPI.rejectWithValue(error);
 
-      const data = await apis.getPost();
+      const { data } = await axios.get(
+        `https://www.sparta-sjl.shop/api/posts`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
+          },
+        }
+      );
       console.log("로딩데이터: ", data);
       console.log("데이터찾기: ", data.data);
 
-      return thunkAPI.fulfillWithValue(data.data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (err) {
       console.log(err);
       return thunkAPI.rejectWithValue(err);
@@ -69,10 +82,16 @@ export const __postPost = createAsyncThunk(
       // const data = await apis.createPost(payload);
       const data = await axios.post(
         `https://www.sparta-sjl.shop/api/posts`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
+          },
+        }
       );
 
-      console.log("POST 추가 데이터", data);
+      console.log("POST 추가 데이터", { data });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -101,13 +120,13 @@ export const __deletePost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const deletedata = await apis.deletePost(
-        payload,
-
+      const deletedata = await axios.delete(
+        `https://www.sparta-sjl.shop/api/posts/${payload}`,
+        // payload,
         {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            Authorization: localStorage.getItem("num"),
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
           },
         }
       );
@@ -244,13 +263,13 @@ export const postSlice = createSlice({
       // 미들웨어를 통해 받은 action값이 무엇인지 항상 확인한다
       console.log("action-서버값", typeof action.payload);
       state.isLoading = false;
+      state.posts = state.posts.filter((post) => post.num !== action.payload);
+      // console.log(state.posts);
+      // state.posts.push(action.payload);
+      // // state.posts = [...state.posts, action.payload];
 
-      console.log(state.posts);
-      state.posts.push(action.payload);
-      // state.posts = [...state.posts, action.payload];
-
-      const newPost = state.posts.filter((t) => t.num !== action.payload);
-      state.posts = [...newPost];
+      // const newPost = state.posts.filter((t) => t.num !== action.payload);
+      // state.posts = [...newPost];
     },
     [__deletePost.rejected]: (state, action) => {
       state.isLoading = false;

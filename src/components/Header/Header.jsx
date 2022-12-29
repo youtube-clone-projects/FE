@@ -15,7 +15,9 @@ function Header() {
         <HeadLeftIcon>
           <AiOutlineMenu className="categoryMenu" />
           <DarkLogoBox>
-            <DarkLogo alt="dark_logo" src="/image/dark_logo.jpg" />
+            <a href="/">
+              <DarkLogo alt="dark_logo" src="/image/dark_logo.jpg" />
+            </a>
             <LogoKr>KR</LogoKr>
           </DarkLogoBox>
         </HeadLeftIcon>
@@ -57,6 +59,8 @@ const Navbar = styled.nav`
   padding: 0 20px;
   background-color: #0f0f0f;
   display: flex;
+  top: 0;
+  left: 0;
   align-items: center;
   position: fixed;
   z-index: 9;

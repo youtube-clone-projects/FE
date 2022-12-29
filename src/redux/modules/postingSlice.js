@@ -18,7 +18,7 @@ export const __getList = createAsyncThunk(
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjcyMDA1NjU3LCJpYXQiOjE2NzE2NDU2NTd9.IQyDjcHWVCHdTnn-1_Ncr7SJn_hePBqM7Q8n8VAikbc",
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2Rhc2QxMiIsImF1dGgiOiIiLCJleHAiOjE2NzI2NDYwODgsImlhdCI6MTY3MjI4NjA4OH0.5wg19q9WOQxKNaq_LQR9jXUNcWDR6j8IoPouzdaywIE",
           },
         }
       );
