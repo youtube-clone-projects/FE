@@ -129,6 +129,8 @@ export const __editPost = createAsyncThunk(
         title: payload.title,
         content: payload.content,
         category: payload.category,
+        image: payload.image,
+        video: payload.video,
       });
 
       console.log("POST 추가 데이터", data);
