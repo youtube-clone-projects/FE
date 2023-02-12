@@ -94,7 +94,12 @@ function MainPage() {
                     </StDiv>
                   </StDiv>
                   <StDiv BtnBox>
+
+                    {/* {localStorage.getItem("username") ===
+                    `${cardList.username}` ? (
+
                     {/* {localStorage.getItem("id") ? (
+
                       <StBtn
                         CardBtn
                         onClick={() => {
