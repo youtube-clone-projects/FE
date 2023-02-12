@@ -6,7 +6,8 @@
 
 ![youtube_dark_logo](https://user-images.githubusercontent.com/118269129/218318511-f7668956-5be8-4cab-be32-2769a728f4b7.jpg)
 <img src="https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=YouTube&logoColor=white"/>
-<br> -[[YouTube Clone 바로가기]](https://main.d2kcfi6tlfpg20.amplifyapp.com/) -[[YouTube Clone 시연영상]](https://www.youtube.com/watch?v=92cC5dCdVCw)
+<br> -[[YouTube Clone 바로가기]](https://main.d2kcfi6tlfpg20.amplifyapp.com/)
+<br> -[[YouTube Clone 시연영상]](https://www.youtube.com/watch?v=92cC5dCdVCw)
 
 ![image](https://user-images.githubusercontent.com/118269129/218320710-47247b46-15e9-4468-aae3-128bb212a5f2.png)
 ![image](https://user-images.githubusercontent.com/118269129/218320753-e04ff28c-22c4-443b-8fb2-13971fba13d9.png)
