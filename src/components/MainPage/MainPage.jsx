@@ -94,7 +94,8 @@ function MainPage() {
                     </StDiv>
                   </StDiv>
                   <StDiv BtnBox>
-                    {localStorage.getItem("id") ? (
+                    {/* {localStorage.getItem("username") ===
+                    `${cardList.username}` ? (
                       <StBtn
                         CardBtn
                         onClick={() => {
@@ -103,8 +104,8 @@ function MainPage() {
                       >
                         수정
                       </StBtn>
-                    ) : null}
-                    {localStorage.getItem("id") ? (
+                    ) : null} */}
+                    {localStorage.getItem("username") === cardList.username ? (
                       <StBtn
                         CardBtn
                         onClick={() => {

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//기본 URL
 export const instance = axios.create({
   baseURL: "https://www.sparta-sjl.shop/api",
   // baseURL: "https://www.sparta-sjl.shop/api",
